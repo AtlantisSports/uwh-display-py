@@ -16,12 +16,12 @@ class MatrixCanvasViewer(CanvasViewer):
                                         self._matrix.height),
                                 "white")
 
-    def show(self, c):
-        self.w.delete(tk.ALL)
+        self._offscreen = self._matrix.CreateFrameCanvas()
 
-        pix = self._image.load()
+    def show(self, c):
         for y in range(c.h):
             for x in range(c.w):
-                pix[x, y] = c.get(x, y)
+                color = c.get(x, y)
+                self._offscreen.SetPixel(x, y, color.r, color.g, color.b)
 
-         self._matrix.SetImage(self._image)
+        self._offscreen = self._matrix.SwapOnVSync(self._offscreen)
