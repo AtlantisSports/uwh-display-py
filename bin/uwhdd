@@ -14,6 +14,7 @@ cfg = XBeeConfigParser()
 cfg.read('timeshark.cfg')
 
 mgr = GameManager()
+mgr.setPassive()
 
 xbee = XBeeClient(mgr, xbee_port(cfg), xbee_baud(cfg))
 xbee.listen_thread()
@@ -26,7 +27,8 @@ mv = MatrixCanvasViewer()
 try:
     print("Press CTRL-C to stop.")
     while True:
+        gd.render(mgr)
         mv.show(gd.canvas)
-        time.sleep(100)
+        time.sleep(0.01)
 except KeyboardInterrupt:
     sys.exit(0)

@@ -18,6 +18,7 @@ class GameDisplay(object):
         self.render_base(mgr)
 
     def render_base(self, mgr):
+        self.canvas.clear()
         if mgr.whiteScore() < 10 and mgr.blackScore() < 10:
             self.render_wide(mgr)
         elif mgr.whiteScore() < 10 or mgr.blackScore() < 10:
@@ -85,13 +86,13 @@ class GameDisplay(object):
                               "over")
 
         if show_time:
-            self.font_m.print(self.canvas, offset + 14, 10, time_color,
-                              "%d" % (mgr.gameClock() // 60))
+            self.font_m.print(self.canvas, offset + 15, 10, time_color,
+                              "{:>2}".format(mgr.gameClock() // 60))
 
-            self.font_m.print(self.canvas, offset + 41, 10, time_color,
-                              "%02d" % (mgr.gameClock() % 60))
-            self.draw_colon(offset + 38, 16, time_color)
-            self.draw_colon(offset + 38, 24, time_color)
+            self.font_m.print(self.canvas, offset + 42, 10, time_color,
+                              "{:0>2}".format(mgr.gameClock() % 60))
+            self.draw_colon(offset + 39, 16, time_color)
+            self.draw_colon(offset + 39, 24, time_color)
 
         self.font_l.print(self.canvas,  0, 1, black_color,
                           "%d" % (mgr.blackScore(),))
@@ -129,10 +130,10 @@ class GameDisplay(object):
 
         if show_time:
             self.font_m.print(self.canvas, 22, 10, time_color,
-                              "%d" % (mgr.gameClock() // 60))
+                              "{:>2}".format(mgr.gameClock() // 60))
 
             self.font_m.print(self.canvas, 53, 10, time_color,
-                              "%02d" % (mgr.gameClock() % 60))
+                              "{:0>2}".format(mgr.gameClock() % 60))
 
             self.draw_colon(48, 16, time_color)
             self.draw_colon(48, 24, time_color)
