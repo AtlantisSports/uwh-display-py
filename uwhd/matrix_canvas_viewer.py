@@ -6,7 +6,7 @@ class MatrixCanvasViewer(CanvasViewer):
     def __init__(self):
         options = RGBMatrixOptions()
         options.rows = 32
-        options.chain_length = 2
+        options.chain_length = 3
         options.parallel = 1
         options.hardware_mapping = 'regular'
 
