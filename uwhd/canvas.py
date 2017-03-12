@@ -5,11 +5,14 @@ class Color(object):
         self.g = g
         self.b = b
 
+    def as_hex(self):
+        return "#%0.2x%0.2x%0.2x" % (self.r, self.g, self.b)
+
 class Canvas(object):
     def __init__(self, width, height):
-        self.width = width
-        self.height = height
-        self.c = [[Color()] * width for y in range(height)]
+        self.w = width
+        self.h = height
+        self.c = [[Color()] * self.w for y in range(self.h)]
 
     def get(self, x, y):
         return self.c[y][x]
