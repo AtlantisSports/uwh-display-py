@@ -1,0 +1,22 @@
+#!/usr/bin/env python
+
+from uwhd.tk_canvas_viewer import TkCanvasViewer
+from uwhd.canvas import Canvas, Color
+import tkinter as tk
+
+master = tk.Tk()
+cv = Canvas(32 * 3, 32)
+cvv = TkCanvasViewer(master, cv)
+
+red = Color(255, 0, 0)
+green = Color(0, 255, 0)
+blue = Color(0, 0, 255)
+
+for i in range(cv.h):
+    cv.set(i, i, red)
+    cv.set(i + 32, i, green)
+    cv.set(i + 64, i, blue)
+
+cvv.show(cv)
+
+tk.mainloop()
