@@ -1,0 +1,6 @@
+.coverage
+.cache/*
+.tox/*
+coverage.xml
+uwh_display.egg-info/*
+uwhd/__pycache__/*
