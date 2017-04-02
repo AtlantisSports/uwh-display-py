@@ -2,10 +2,12 @@ import os
 from .ppm import PPMImage
 
 class Font(object):
-    def __init__(self, name):
+    def __init__(self, name, w, h):
         self.name = name
         self.map = {}
         self.remap = lambda x : x
+        self.w = w
+        self.h = h
 
     def get_character(self, c):
         return self.map[self.remap(c)]
@@ -14,9 +16,23 @@ class Font(object):
         with open(filename, 'r') as img:
             self.map[c] = PPMImage.load(img).as_canvas()
 
+    def print(self, canvas, x, y, color, s):
+        def print_char(canvas, x, y, color, char_img):
+            for yi in range(0, self.h):
+              for xi in range(0, self.w):
+                  ic = char_img.get(xi, yi)
+                  ic.r = ic.r * color.r
+                  ic.g = ic.g * color.g
+                  ic.b = ic.b * color.b
+                  canvas.set(x + xi, y + yi, ic)
+        xi = x
+        for c in s:
+            print_char(canvas, xi, y, color, self.get_character(c))
+            xi += self.w + 1
+
     @staticmethod
     def get_5x7():
-        f = Font("5x7")
+        f = Font("5x7", 5, 7)
 
         chars = {
             '(': 'fonts/5x7/ascii_LPAREN.ppm',
@@ -78,7 +94,7 @@ class Font(object):
 
     @staticmethod
     def get_11x20():
-        f = Font("11x20")
+        f = Font("11x20", 11, 20)
 
         chars = {
             '0': 'fonts/11x20/ascii_0.ppm',
@@ -100,10 +116,9 @@ class Font(object):
 
         return f
 
-
     @staticmethod
     def get_15x29():
-        f = Font("15x29")
+        f = Font("15x29", 15, 29)
 
         chars = {
             '0': 'fonts/15x29/ascii_0.ppm',
