@@ -21,9 +21,9 @@ class Font(object):
             for yi in range(0, self.h):
               for xi in range(0, self.w):
                   ic = char_img.get(xi, yi)
-                  ic.r = ic.r * color.r
-                  ic.g = ic.g * color.g
-                  ic.b = ic.b * color.b
+                  ic.r = (ic.r * color.r) / 255
+                  ic.g = (ic.g * color.g) / 255
+                  ic.b = (ic.b * color.b) / 255
                   canvas.set(x + xi, y + yi, ic)
         xi = x
         for c in s:

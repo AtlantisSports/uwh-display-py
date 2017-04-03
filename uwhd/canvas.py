@@ -5,8 +5,15 @@ class Color(object):
         self.g = g
         self.b = b
 
+    def __eq__(self, other):
+        return self.r == other.r and self.g == other.g and self.b == other.b
+
     def as_hex(self):
         return "#%0.2x%0.2x%0.2x" % (self.r, self.g, self.b)
+
+    def copy(self):
+        # FIXME: is there a pythonic way of doing this?
+        return Color(self.r, self.g, self.b)
 
 class Canvas(object):
     def __init__(self, width, height):
@@ -15,7 +22,7 @@ class Canvas(object):
         self.c = [[Color()] * self.w for y in range(self.h)]
 
     def get(self, x, y):
-        return self.c[y][x]
+        return self.c[y][x].copy()
 
     def set(self, x, y, c):
         self.c[y][x] = c
