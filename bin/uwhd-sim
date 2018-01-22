@@ -4,7 +4,7 @@ from uwhd.tk_canvas_viewer import TkCanvasViewer
 from uwhd.canvas import Canvas, Color
 from uwhd.ppm import PPMImage
 from uwhd.gamedisplay import GameDisplay
-from uwhd.gamemanager import GameManager
+from uwh.gamemanager import GameManager
 import tkinter as tk
 import io
 

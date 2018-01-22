@@ -1,4 +1,4 @@
-from .gamemanager import GameManager
+from uwh.gamemanager import GameManager
 from .gamedisplay import GameDisplay
 
 def test__GameDisplay():
