@@ -1,4 +1,27 @@
 #!/usr/bin/env python
 
-from uwhd.display import Canvas
+from uwhd.canvas import Canvas
+from uwhd.matrix_canvas_viewer import MatrixCanvasViewer
+from uwhd.gamedisplay import GameDisplay
+from uwh.gamemanager import GameManager
 
+import sys
+import time
+
+mgr = GameManager()
+mgr.setBlackScore(13)
+mgr.setWhiteScore(10)
+mgr.setGameClock(11 * 60 + 42)
+
+gd = GameDisplay()
+gd.render(mgr)
+
+mv = MatrixCanvasViewer()
+
+try:
+    print("Press CTRL-C to stop.")
+    while True:
+        mv.show(gd.canvas)
+        time.sleep(100)
+except KeyboardInterrupt:
+    sys.exit(0)
