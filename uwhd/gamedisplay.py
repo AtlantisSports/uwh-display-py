@@ -21,8 +21,9 @@ class GameDisplay(object):
         self.font_l.print(self.canvas, 64, 1, white_color,
                           "%02d" % (mgr.whiteScore(),))
 
+        game_clock = mgr.gameClock()
         self.font_m.print(self.canvas, 38, 2, time_color,
-                          "%d" % (mgr.gameClock() // 60,))
+                          "%2d" % (game_clock // 60,))
 
         self.font_s.print(self.canvas, 38, 23, time_color,
-                          ":%d" % (mgr.gameClock() % 60,))
+                          ":%02d" % (game_clock % 60,))
