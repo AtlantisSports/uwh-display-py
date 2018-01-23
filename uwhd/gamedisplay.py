@@ -137,6 +137,7 @@ class GameDisplay(object):
             self.draw_colon(48, 16, time_color)
             self.draw_colon(48, 24, time_color)
 
+
     def draw_colon(self, x, y, c):
         self.canvas.set(x,   y,   c)
         self.canvas.set(x,   y+1, c)
