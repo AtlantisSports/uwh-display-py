@@ -11,6 +11,12 @@ def test__Color():
     assert col.g == 2
     assert col.b == 3
 
+    col = Color(1.1, 2.1, 3.1)
+    assert col.r == 1
+    assert col.g == 2
+    assert col.b == 3
+
+
 def test__Canvas_as_hex():
     col = Color(1, 2, 3)
     assert "#010203" == col.as_hex()
