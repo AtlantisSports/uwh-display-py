@@ -18,7 +18,7 @@ cfg.read('timeshark.cfg')
 mgr = GameManager()
 mgr.setBlackScore(0)
 mgr.setWhiteScore(0)
-mgr.setGameClock(13 * 60)
+mgr.setGameClock(0)
 
 xbee = XBeeClient(mgr, xbee_port(cfg), xbee_baud(cfg))
 xbee.listen_thread()
