@@ -5,20 +5,34 @@ from uwhd.canvas import Canvas, Color
 from uwhd.ppm import PPMImage
 from uwhd.gamedisplay import GameDisplay
 from uwh.gamemanager import GameManager
+from uwh.xbee_comms import XBeeClient, XBeeConfigParser, xbee_port, xbee_baud
+
 import tkinter as tk
 import io
 
 master = tk.Tk()
+
+cfg = XBeeConfigParser()
+cfg.read('timeshark.cfg')
 
 mgr = GameManager()
 mgr.setBlackScore(0)
 mgr.setWhiteScore(0)
 mgr.setGameClock(13 * 60)
 
+xbee = XBeeClient(mgr, xbee_port(cfg), xbee_baud(cfg))
+xbee.listen_thread()
+
 gd = GameDisplay()
 gd.render(mgr)
 
 cvv = TkCanvasViewer(master, gd.canvas)
 cvv.show(gd.canvas)
+
+def do_render():
+    gd.render(mgr)
+    cvv.show(gd.canvas)
+    cvv.w.after(100, do_render)
+cvv.w.after(100, do_render)
 
 tk.mainloop()
