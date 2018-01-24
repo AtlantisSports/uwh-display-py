@@ -16,6 +16,7 @@ cfg = XBeeConfigParser()
 cfg.read('timeshark.cfg')
 
 mgr = GameManager()
+mgr.setPassive()
 mgr.setBlackScore(0)
 mgr.setWhiteScore(0)
 mgr.setGameClock(0)
