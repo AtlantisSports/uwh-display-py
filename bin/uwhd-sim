@@ -11,9 +11,9 @@ import io
 master = tk.Tk()
 
 mgr = GameManager()
-mgr.setBlackScore(13)
-mgr.setWhiteScore(10)
-mgr.setGameClock(11 * 60 + 42)
+mgr.setBlackScore(0)
+mgr.setWhiteScore(0)
+mgr.setGameClock(13 * 60)
 
 gd = GameDisplay()
 gd.render(mgr)
