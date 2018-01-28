@@ -3,7 +3,7 @@ from .canvas import Canvas, Color
 
 black_color = Color(  0,   0, 255)
 white_color = Color(255, 255, 255)
-time_color  = Color(255, 255,   0)
+time_color  = Color(  0, 255,   0)
 
 class GameDisplay(object):
     def __init__(self):
