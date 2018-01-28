@@ -17,9 +17,9 @@ class GameDisplay(object):
 
     def render_base(self, mgr):
         self.font_l.print(self.canvas,  1, 1, black_color,
-                          "%02d" % (mgr.blackScore(),))
+                          "%2d" % (mgr.blackScore(),))
         self.font_l.print(self.canvas, 64, 1, white_color,
-                          "%02d" % (mgr.whiteScore(),))
+                          "%2d" % (mgr.whiteScore(),))
 
         self.font_m.print(self.canvas, 38, 2, time_color,
                           "%d" % (mgr.gameClock() // 60,))
