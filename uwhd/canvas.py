@@ -26,3 +26,8 @@ class Canvas(object):
 
     def set(self, x, y, c):
         self.c[y][x] = c
+
+    def clear(self):
+        for i in range(self.w):
+            for j in range(self.h):
+                self.c[j][i] = Color()

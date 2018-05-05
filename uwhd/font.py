@@ -133,7 +133,8 @@ class Font(object):
             '6': 'fonts/15x29/ascii_6.ppm',
             '7': 'fonts/15x29/ascii_7.ppm',
             '8': 'fonts/15x29/ascii_8.ppm',
-            '9': 'fonts/15x29/ascii_9.ppm'
+            '9': 'fonts/15x29/ascii_9.ppm',
+            ' ': 'fonts/15x29/ascii_SPACE.ppm'
         }
 
         dir_path = os.path.dirname(os.path.realpath(__file__))

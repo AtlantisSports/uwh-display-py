@@ -1,4 +1,34 @@
 #!/usr/bin/env python
 
-from uwhd.display import Canvas
+from uwhd.canvas import Canvas
+from uwhd.matrix_canvas_viewer import MatrixCanvasViewer
+from uwhd.gamedisplay import GameDisplay
+from uwh.gamemanager import GameManager
+from uwh.xbee_comms import XBeeClient, XBeeConfigParser, xbee_port, xbee_baud
 
+import sys
+import time
+
+
+cfg = XBeeConfigParser()
+cfg.read('timeshark.cfg')
+
+mgr = GameManager()
+mgr.setPassive()
+
+xbee = XBeeClient(mgr, xbee_port(cfg), xbee_baud(cfg))
+xbee.listen_thread()
+
+gd = GameDisplay()
+gd.render(mgr)
+
+mv = MatrixCanvasViewer()
+
+try:
+    print("Press CTRL-C to stop.")
+    while True:
+        gd.render(mgr)
+        mv.show(gd.canvas)
+        time.sleep(0.01)
+except KeyboardInterrupt:
+    sys.exit(0)
