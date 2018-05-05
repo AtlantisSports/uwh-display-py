@@ -6,6 +6,7 @@ white_color = Color(255, 255, 255)
 GREEN  = Color(  0, 255,   0)
 ORANGE = Color(255, 128,   0)
 RED    = Color(255,   0,   0)
+YELLOW = Color(255, 255,   0)
 
 class GameDisplay(object):
     def __init__(self):
@@ -32,7 +33,16 @@ class GameDisplay(object):
         self.font_l.print(self.canvas, 65, 1, white_color,
                           "%2d" % (mgr.whiteScore(),))
 
-        if mgr.gameStateFirstHalf():
+        if mgr.timeoutStateRef():
+            time_color = YELLOW
+            show_time = True
+        elif mgr.timeoutStateWhite():
+            time_color = YELLOW
+            show_time = True
+        elif mgr.timeoutStateBlack():
+            time_color = YELLOW
+            show_time = True
+        elif mgr.gameStateFirstHalf():
             time_color = GREEN
             show_time = True
         elif mgr.gameStateSecondHalf():
@@ -61,7 +71,22 @@ class GameDisplay(object):
         self.font_l.print(self.canvas, 65, 1, white_color,
                           "%2d" % (mgr.whiteScore(),))
         offset = 0 if mgr.blackScore() < 10 else 16
-        if mgr.gameStateFirstHalf():
+        if mgr.timeoutStateRef():
+            time_color = YELLOW
+            show_time = True
+            self.font_s.print(self.canvas, offset + 16, 2, time_color,
+                              "REF  T/O")
+        elif mgr.timeoutStateWhite():
+            time_color = YELLOW
+            show_time = True
+            self.font_s.print(self.canvas, offset + 16, 2, white_color,
+                              "WHT  T/O")
+        elif mgr.timeoutStateBlack():
+            time_color = YELLOW
+            show_time = True
+            self.font_s.print(self.canvas, offset + 16, 2, black_color,
+                              "BLK  T/O")
+        elif mgr.gameStateFirstHalf():
             time_color = GREEN
             show_time = True
             self.font_s.print(self.canvas, offset + 16, 2, time_color,
@@ -104,7 +129,22 @@ class GameDisplay(object):
         self.font_l.print(self.canvas, 81, 1, white_color,
                           "%1d" % (mgr.whiteScore(),))
 
-        if mgr.gameStateFirstHalf():
+        if mgr.timeoutStateRef():
+            time_color = YELLOW
+            show_time = True
+            self.font_s.print(self.canvas, 22, 2, time_color,
+                              " REF T/O ")
+        elif mgr.timeoutStateWhite():
+            time_color = YELLOW
+            show_time = True
+            self.font_s.print(self.canvas, 22, 2, white_color,
+                              "WHITE T/O")
+        elif mgr.timeoutStateBlack():
+            time_color = YELLOW
+            show_time = True
+            self.font_s.print(self.canvas, 22, 2, black_color,
+                              "BLACK T/O")
+        elif mgr.gameStateFirstHalf():
             time_color = GREEN
             show_time = True
             self.font_s.print(self.canvas, 22, 2, time_color,
