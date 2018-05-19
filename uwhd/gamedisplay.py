@@ -1,5 +1,6 @@
 from .font import Font
 from .canvas import Canvas, Color
+from uwh.gamemanager import PoolLayout
 
 black_color = Color(  0,   0, 255)
 white_color = Color(255, 255, 255)
@@ -28,16 +29,28 @@ class GameDisplay(object):
             self.render_narrow(mgr)
 
     def left_score(self, mgr):
-        return mgr.blackScore()
+        if mgr.layout() == PoolLayout.white_on_right:
+            return mgr.blackScore()
+        else:
+            return mgr.whiteScore()
 
     def left_color(self, mgr):
-        return black_color
+        if mgr.layout() == PoolLayout.white_on_right:
+            return black_color
+        else:
+            return white_color
 
     def right_score(self, mgr):
-        return mgr.whiteScore()
+        if mgr.layout() == PoolLayout.white_on_right:
+            return mgr.whiteScore()
+        else:
+            return mgr.blackScore()
 
     def right_color(self, mgr):
-        return white_color
+        if mgr.layout() == PoolLayout.white_on_right:
+            return white_color
+        else:
+            return black_color
 
     def render_narrow(self, mgr):
         self.font_l.print(self.canvas,  0, 1, self.left_color(mgr),
