@@ -27,11 +27,23 @@ class GameDisplay(object):
         else:
             self.render_narrow(mgr)
 
+    def left_score(self, mgr):
+        return mgr.blackScore()
+
+    def left_color(self, mgr):
+        return black_color
+
+    def right_score(self, mgr):
+        return mgr.whiteScore()
+
+    def right_color(self, mgr):
+        return white_color
+
     def render_narrow(self, mgr):
-        self.font_l.print(self.canvas,  0, 1, black_color,
-                          "%2d" % (mgr.blackScore(),))
-        self.font_l.print(self.canvas, 65, 1, white_color,
-                          "%2d" % (mgr.whiteScore(),))
+        self.font_l.print(self.canvas,  0, 1, self.left_color(mgr),
+                          "%2d" % (self.left_score(mgr),))
+        self.font_l.print(self.canvas, 65, 1, self.right_color(mgr),
+                          "%2d" % (self.right_score(mgr),))
 
         if mgr.timeoutStateRef():
             time_color = YELLOW
@@ -68,8 +80,8 @@ class GameDisplay(object):
                               ":%d" % (mgr.gameClock() % 60,))
 
     def render_medium(self, mgr):
-        self.font_l.print(self.canvas, 65, 1, white_color,
-                          "%2d" % (mgr.whiteScore(),))
+        self.font_l.print(self.canvas, 65, 1, self.right_color(mgr),
+                          "%2d" % (self.right_score(mgr),))
         offset = 0 if mgr.blackScore() < 10 else 16
         if mgr.timeoutStateRef():
             time_color = YELLOW
@@ -119,15 +131,15 @@ class GameDisplay(object):
             self.draw_colon(offset + 39, 16, time_color)
             self.draw_colon(offset + 39, 24, time_color)
 
-        self.font_l.print(self.canvas,  0, 1, black_color,
-                          "%d" % (mgr.blackScore(),))
+        self.font_l.print(self.canvas,  0, 1, self.left_color(mgr),
+                          "%d" % (self.left_score(mgr),))
 
 
     def render_wide(self, mgr):
-        self.font_l.print(self.canvas,  1, 1, black_color,
-                          "%1d" % (mgr.blackScore(),))
-        self.font_l.print(self.canvas, 81, 1, white_color,
-                          "%1d" % (mgr.whiteScore(),))
+        self.font_l.print(self.canvas,  1, 1, left_color,
+                          "%1d" % (self.left_score(mgr),))
+        self.font_l.print(self.canvas, 81, 1, right_color,
+                          "%1d" % (self.right_score(mgr),))
 
         if mgr.timeoutStateRef():
             time_color = YELLOW
