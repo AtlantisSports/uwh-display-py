@@ -149,9 +149,9 @@ class GameDisplay(object):
 
 
     def render_wide(self, mgr):
-        self.font_l.print(self.canvas,  1, 1, left_color,
+        self.font_l.print(self.canvas,  1, 1, self.left_color(mgr),
                           "%1d" % (self.left_score(mgr),))
-        self.font_l.print(self.canvas, 81, 1, right_color,
+        self.font_l.print(self.canvas, 81, 1, self.right_color(mgr),
                           "%1d" % (self.right_score(mgr),))
 
         if mgr.timeoutStateRef():
