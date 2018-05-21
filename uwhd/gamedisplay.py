@@ -61,6 +61,9 @@ class GameDisplay(object):
         if mgr.timeoutStateRef():
             time_color = YELLOW
             show_time = True
+        elif mgr.timeoutStatePenaltyShot():
+            time_color = YELLOW
+            show_time = True
         elif mgr.timeoutStateWhite():
             time_color = YELLOW
             show_time = True
@@ -101,6 +104,11 @@ class GameDisplay(object):
             show_time = True
             self.font_s.print(self.canvas, offset + 16, 2, time_color,
                               "REF  T/O")
+        elif mgr.timeoutStatePenaltyShot():
+            time_color = YELLOW
+            show_time = True
+            self.font_s.print(self.canvas, offset + 16, 2, time_color,
+                              "PNLT SHT")
         elif mgr.timeoutStateWhite():
             time_color = YELLOW
             show_time = True
@@ -159,6 +167,11 @@ class GameDisplay(object):
             show_time = True
             self.font_s.print(self.canvas, 22, 2, time_color,
                               " REF T/O ")
+        elif mgr.timeoutStatePenaltyShot():
+            time_color = YELLOW
+            show_time = True
+            self.font_s.print(self.canvas, 22, 2, time_color,
+                              "PNLTY SHT")
         elif mgr.timeoutStateWhite():
             time_color = YELLOW
             show_time = True
