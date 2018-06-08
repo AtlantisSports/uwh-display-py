@@ -70,6 +70,7 @@ class GameDisplay(object):
         elif mgr.timeoutStateBlack():
             time_color = YELLOW
             show_time = True
+
         elif mgr.gameStateFirstHalf():
             time_color = GREEN
             show_time = True
@@ -79,6 +80,14 @@ class GameDisplay(object):
         elif mgr.gameStateHalfTime():
             time_color = ORANGE
             show_time = True
+        elif mgr.gameStatePreGame():
+            time_color = GREEN
+            show_time = False
+            self.font_s.print(self.canvas, 38, 6, time_color,
+                              "pre")
+
+            self.font_s.print(self.canvas, 38, 20, time_color,
+                              "game")
         elif mgr.gameStateGameOver():
             time_color = RED
             show_time = False
@@ -134,6 +143,14 @@ class GameDisplay(object):
             show_time = True
             self.font_s.print(self.canvas, offset + 16, 2, time_color,
                               "1/2 time")
+        elif mgr.gameStatePreGame():
+            time_color = GREEN
+            show_time = False
+            self.font_s.print(self.canvas, offset + 28, 6, time_color,
+                              "pre")
+
+            self.font_s.print(self.canvas, offset + 28, 20, time_color,
+                              "game")
         elif mgr.gameStateGameOver():
             time_color = RED
             show_time = False
@@ -142,6 +159,7 @@ class GameDisplay(object):
 
             self.font_s.print(self.canvas, offset + 28, 20, time_color,
                               "over")
+
 
         if show_time:
             self.font_m.print(self.canvas, offset + 15, 10, time_color,
@@ -197,6 +215,14 @@ class GameDisplay(object):
             show_time = True
             self.font_s.print(self.canvas, 22, 2, time_color,
                               "half time")
+        elif mgr.gameStatePreGame():
+            time_color = GREEN
+            show_time = False
+            self.font_s.print(self.canvas, 38, 6, time_color,
+                              "pre")
+
+            self.font_s.print(self.canvas, 38, 20, time_color,
+                              "game")
         elif mgr.gameStateGameOver():
             time_color = RED
             show_time = False
