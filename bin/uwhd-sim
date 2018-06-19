@@ -6,6 +6,7 @@ from uwhd.ppm import PPMImage
 from uwhd.gamedisplay import GameDisplay
 from uwh.gamemanager import GameManager
 from uwh.xbee_comms import XBeeClient, XBeeConfigParser, xbee_port, xbee_baud
+from uwh.gamemanager import PoolLayout, TimeoutState, GameState
 
 import tkinter as tk
 import io

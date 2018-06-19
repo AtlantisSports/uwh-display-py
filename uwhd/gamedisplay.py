@@ -1,6 +1,6 @@
 from .font import Font
 from .canvas import Canvas, Color
-from uwh.gamemanager import PoolLayout
+from uwh.gamemanager import PoolLayout, TimeoutState, GameState
 
 black_color = Color(  0,   0, 255)
 white_color = Color(255, 255, 255)
@@ -58,37 +58,36 @@ class GameDisplay(object):
         self.font_l.print(self.canvas, 65, 1, self.right_color(mgr),
                           "%2d" % (self.right_score(mgr),))
 
-        if mgr.timeoutStateRef():
+        if mgr.timeoutState() == TimeoutState.ref:
             time_color = YELLOW
             show_time = True
-        elif mgr.timeoutStatePenaltyShot():
+        elif mgr.timeoutState() == TimeoutState.penalty_shot:
+            time_color = RED
+            show_time = True
+        elif mgr.timeoutState() == TimeoutState.white:
             time_color = YELLOW
             show_time = True
-        elif mgr.timeoutStateWhite():
+        elif mgr.timeoutState() == TimeoutState.black:
             time_color = YELLOW
             show_time = True
-        elif mgr.timeoutStateBlack():
-            time_color = YELLOW
-            show_time = True
-
-        elif mgr.gameStateFirstHalf():
+        elif mgr.gameState() == GameState.first_half:
             time_color = GREEN
             show_time = True
-        elif mgr.gameStateSecondHalf():
+        elif mgr.gameState() == GameState.second_half:
             time_color = GREEN
             show_time = True
-        elif mgr.gameStateHalfTime():
+        elif mgr.gameState() == GameState.half_time:
             time_color = ORANGE
             show_time = True
-        elif mgr.gameStatePreGame():
-            time_color = GREEN
+        elif mgr.gameState() == GameState.pre_game:
+            time_color = YELLOW
             show_time = False
             self.font_s.print(self.canvas, 38, 6, time_color,
                               "pre")
 
             self.font_s.print(self.canvas, 38, 20, time_color,
                               "game")
-        elif mgr.gameStateGameOver():
+        elif mgr.gameState() == GameState.game_over:
             time_color = RED
             show_time = False
             self.font_s.print(self.canvas, 38, 6, time_color,
@@ -108,50 +107,50 @@ class GameDisplay(object):
         self.font_l.print(self.canvas, 65, 1, self.right_color(mgr),
                           "%2d" % (self.right_score(mgr),))
         offset = 0 if mgr.blackScore() < 10 else 16
-        if mgr.timeoutStateRef():
+        if mgr.timeoutState() == TimeoutState.ref:
             time_color = YELLOW
             show_time = True
             self.font_s.print(self.canvas, offset + 16, 2, time_color,
                               "REF  T/O")
-        elif mgr.timeoutStatePenaltyShot():
-            time_color = YELLOW
+        elif mgr.timeoutState() == TimeoutState.penalty_shot:
+            time_color = RED
             show_time = True
             self.font_s.print(self.canvas, offset + 16, 2, time_color,
                               "PNLT SHT")
-        elif mgr.timeoutStateWhite():
+        elif mgr.timeoutState() == TimeoutState.white:
             time_color = YELLOW
             show_time = True
             self.font_s.print(self.canvas, offset + 16, 2, white_color,
                               "WHT  T/O")
-        elif mgr.timeoutStateBlack():
+        elif mgr.timeoutState() == TimeoutState.black:
             time_color = YELLOW
             show_time = True
             self.font_s.print(self.canvas, offset + 16, 2, black_color,
                               "BLK  T/O")
-        elif mgr.gameStateFirstHalf():
+        elif mgr.gameState() == GameState.first_half:
             time_color = GREEN
             show_time = True
             self.font_s.print(self.canvas, offset + 16, 2, time_color,
                               "1st half")
-        elif mgr.gameStateSecondHalf():
+        elif mgr.gameState() == GameState.second_half:
             time_color = GREEN
             show_time = True
             self.font_s.print(self.canvas, offset + 16, 2, time_color,
                               "2nd half")
-        elif mgr.gameStateHalfTime():
+        elif mgr.gameState() == GameState.half_time:
             time_color = ORANGE
             show_time = True
             self.font_s.print(self.canvas, offset + 16, 2, time_color,
                               "1/2 time")
-        elif mgr.gameStatePreGame():
-            time_color = GREEN
+        elif mgr.gameState() == GameState.pre_game:
+            time_color = YELLOW
             show_time = False
             self.font_s.print(self.canvas, offset + 28, 6, time_color,
                               "pre")
 
             self.font_s.print(self.canvas, offset + 28, 20, time_color,
                               "game")
-        elif mgr.gameStateGameOver():
+        elif mgr.gameState() == GameState.game_over:
             time_color = RED
             show_time = False
             self.font_s.print(self.canvas, offset + 28, 6, time_color,
@@ -180,50 +179,50 @@ class GameDisplay(object):
         self.font_l.print(self.canvas, 81, 1, self.right_color(mgr),
                           "%1d" % (self.right_score(mgr),))
 
-        if mgr.timeoutStateRef():
+        if mgr.timeoutState() == TimeoutState.ref:
             time_color = YELLOW
             show_time = True
             self.font_s.print(self.canvas, 22, 2, time_color,
                               " REF T/O ")
-        elif mgr.timeoutStatePenaltyShot():
-            time_color = YELLOW
+        elif mgr.timeoutState() == TimeoutState.penalty_shot:
+            time_color = RED
             show_time = True
             self.font_s.print(self.canvas, 22, 2, time_color,
                               "PNLTY SHT")
-        elif mgr.timeoutStateWhite():
+        elif mgr.timeoutState() == TimeoutState.white:
             time_color = YELLOW
             show_time = True
             self.font_s.print(self.canvas, 22, 2, white_color,
                               "WHITE T/O")
-        elif mgr.timeoutStateBlack():
+        elif mgr.timeoutState() == TimeoutState.black:
             time_color = YELLOW
             show_time = True
             self.font_s.print(self.canvas, 22, 2, black_color,
                               "BLACK T/O")
-        elif mgr.gameStateFirstHalf():
+        elif mgr.gameState() == GameState.first_half:
             time_color = GREEN
             show_time = True
             self.font_s.print(self.canvas, 22, 2, time_color,
                               "1st  half")
-        elif mgr.gameStateSecondHalf():
+        elif mgr.gameState() == GameState.second_half:
             time_color = GREEN
             show_time = True
             self.font_s.print(self.canvas, 22, 2, time_color,
                               "2nd  half")
-        elif mgr.gameStateHalfTime():
+        elif mgr.gameState() == GameState.half_time:
             time_color = ORANGE
             show_time = True
             self.font_s.print(self.canvas, 22, 2, time_color,
                               "half time")
-        elif mgr.gameStatePreGame():
-            time_color = GREEN
+        elif mgr.gameState() == GameState.pre_game:
+            time_color = YELLOW
             show_time = False
             self.font_s.print(self.canvas, 38, 6, time_color,
                               "pre")
 
             self.font_s.print(self.canvas, 38, 20, time_color,
                               "game")
-        elif mgr.gameStateGameOver():
+        elif mgr.gameState() == GameState.game_over:
             time_color = RED
             show_time = False
             self.font_s.print(self.canvas, 38, 6, time_color,
