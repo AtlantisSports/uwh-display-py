@@ -95,6 +95,18 @@ class GameDisplay(object):
 
             self.font_s.print(self.canvas, 38, 20, time_color,
                               "over")
+        elif mgr.gameState() == GameState.ot_first:
+            time_color = GREEN
+            show_time = True
+        elif mgr.gameState() == GameState.ot_half:
+            time_color = ORANGE
+            show_time = True
+        elif mgr.gameState() == GameState.ot_second:
+            time_color = GREEN
+            show_time = True
+        elif mgr.gameState() == GameState.sudden_death:
+            time_color = GREEN
+            show_time = True
 
         if show_time:
             self.font_m.print(self.canvas, 38, 2, time_color,
@@ -158,7 +170,25 @@ class GameDisplay(object):
 
             self.font_s.print(self.canvas, offset + 28, 20, time_color,
                               "over")
-
+        elif mgr.gameState() == GameState.ot_first:
+            time_color = GREEN
+            show_time = True
+            self.font_s.print(self.canvas, offset + 16, 2, time_color,
+                              "1st O/T")
+        elif mgr.gameState() == GameState.ot_half:
+            time_color = ORANGE
+            show_time = True
+            self.font_s.print(self.canvas, offset + 16, 2, time_color,
+                              "H/T O/T")
+        elif mgr.gameState() == GameState.ot_second:
+            time_color = GREEN
+            self.font_s.print(self.canvas, offset + 16, 2, time_color,
+                              "2nd O/T")
+        elif mgr.gameState() == GameState.sudden_death:
+            time_color = GREEN
+            show_time = True
+            self.font_s.print(self.canvas, offset + 16, 2, time_color,
+                              "SDN DTH")
 
         if show_time:
             self.font_m.print(self.canvas, offset + 15, 10, time_color,
@@ -230,6 +260,26 @@ class GameDisplay(object):
 
             self.font_s.print(self.canvas, 38, 20, time_color,
                               "over")
+        elif mgr.gameState() == GameState.ot_first:
+            time_color = GREEN
+            show_time = True
+            self.font_s.print(self.canvas, 22, 2, time_color,
+                              "1st - O/T")
+        elif mgr.gameState() == GameState.ot_half:
+            time_color = ORANGE
+            show_time = True
+            self.font_s.print(self.canvas, 22, 2, time_color,
+                              "1/2 - O/T")
+        elif mgr.gameState() == GameState.ot_second:
+            time_color = GREEN
+            show_time = True
+            self.font_s.print(self.canvas, 22, 2, time_color,
+                              "2nd - O/T")
+        elif mgr.gameState() == GameState.sudden_death:
+            time_color = GREEN
+            show_time = True
+            self.font_s.print(self.canvas, 22, 2, time_color,
+                              "sdn death")
 
         if show_time:
             self.font_m.print(self.canvas, 22, 10, time_color,
