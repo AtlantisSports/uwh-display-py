@@ -95,6 +95,9 @@ class GameDisplay(object):
 
             self.font_s.print(self.canvas, 38, 20, time_color,
                               "over")
+        elif mgr.gameState() == GameState.pre_ot:
+            time_color = ORANGE
+            show_time = True
         elif mgr.gameState() == GameState.ot_first:
             time_color = GREEN
             show_time = True
@@ -103,6 +106,9 @@ class GameDisplay(object):
             show_time = True
         elif mgr.gameState() == GameState.ot_second:
             time_color = GREEN
+            show_time = True
+        elif mgr.gameState() == GameState.pre_sudden_death:
+            time_color = ORANGE
             show_time = True
         elif mgr.gameState() == GameState.sudden_death:
             time_color = GREEN
@@ -170,6 +176,11 @@ class GameDisplay(object):
 
             self.font_s.print(self.canvas, offset + 28, 20, time_color,
                               "over")
+        elif mgr.gameState() == GameState.pre_ot:
+            time_color = ORANGE
+            show_time = True
+            self.font_s.print(self.canvas, offset + 16, 2, time_color,
+                              "PRE O/T")
         elif mgr.gameState() == GameState.ot_first:
             time_color = GREEN
             show_time = True
@@ -184,6 +195,11 @@ class GameDisplay(object):
             time_color = GREEN
             self.font_s.print(self.canvas, offset + 16, 2, time_color,
                               "2nd O/T")
+        elif mgr.gameState() == GameState.pre_sudden_death:
+            time_color = ORANGE
+            show_time = True
+            self.font_s.print(self.canvas, offset + 16, 2, time_color,
+                              "PRE S/D")
         elif mgr.gameState() == GameState.sudden_death:
             time_color = GREEN
             show_time = True
@@ -260,6 +276,11 @@ class GameDisplay(object):
 
             self.font_s.print(self.canvas, 38, 20, time_color,
                               "over")
+        elif mgr.gameState() == GameState.pre_ot:
+            time_color = ORANGE
+            show_time = True
+            self.font_s.print(self.canvas, 22, 2, time_color,
+                              "PRE - O/T")
         elif mgr.gameState() == GameState.ot_first:
             time_color = GREEN
             show_time = True
@@ -275,6 +296,11 @@ class GameDisplay(object):
             show_time = True
             self.font_s.print(self.canvas, 22, 2, time_color,
                               "2nd - O/T")
+        elif mgr.gameState() == GameState.pre_sudden_death:
+            time_color = ORANGE
+            show_time = True
+            self.font_s.print(self.canvas, 22, 2, time_color,
+                              "PRE - S/D")
         elif mgr.gameState() == GameState.sudden_death:
             time_color = GREEN
             show_time = True
