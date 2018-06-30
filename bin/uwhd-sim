@@ -21,9 +21,14 @@ mgr.setPassive()
 mgr.setBlackScore(0)
 mgr.setWhiteScore(0)
 mgr.setGameClock(0)
+mgr.setLayout(PoolLayout.white_on_left)
 
-xbee = XBeeClient(mgr, xbee_port(cfg), xbee_baud(cfg))
-xbee.listen_thread()
+cfg = XBeeConfigParser()
+cfg.read('timeshark.cfg')
+
+if cfg.getboolean('hardware', 'has_xbee'):
+    xbee = XBeeClient(mgr, xbee_port(cfg), xbee_baud(cfg))
+    xbee.listen_thread()
 
 gd = GameDisplay()
 gd.render(mgr)
