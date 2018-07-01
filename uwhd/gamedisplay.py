@@ -95,7 +95,6 @@ class GameDisplay(object):
             show_time = False
             self.font_s.print(self.canvas, 38, 6, time_color,
                               "game")
-
             self.font_s.print(self.canvas, 38, 20, time_color,
                               "over")
         elif mgr.gameState() == GameState.pre_ot:
@@ -122,7 +121,7 @@ class GameDisplay(object):
                               "%d" % (mgr.gameClock() // 60,))
 
             self.font_s.print(self.canvas, 38, 23, time_color,
-                              ":%d" % (mgr.gameClock() % 60,))
+                              ":%02d" % (mgr.gameClock() % 60,))
 
     def render_medium(self, mgr):
         self.font_l.print(self.canvas, 65, 1, self.right_color(mgr),
