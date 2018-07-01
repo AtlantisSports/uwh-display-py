@@ -99,7 +99,11 @@ class GameDisplay(object):
                               "over")
         elif mgr.gameState() == GameState.pre_ot:
             time_color = ORANGE
-            show_time = True
+            show_time = False
+            self.font_s.print(self.canvas, 38, 6, time_color,
+                              "over")
+            self.font_s.print(self.canvas, 38, 20, time_color,
+                              "time")
         elif mgr.gameState() == GameState.ot_first:
             time_color = GREEN
             show_time = True
@@ -176,14 +180,15 @@ class GameDisplay(object):
             show_time = False
             self.font_s.print(self.canvas, offset + 28, 6, time_color,
                               "game")
-
             self.font_s.print(self.canvas, offset + 28, 20, time_color,
                               "over")
         elif mgr.gameState() == GameState.pre_ot:
             time_color = ORANGE
-            show_time = True
-            self.font_s.print(self.canvas, offset + 16, 2, time_color,
-                              "PRE O/T")
+            show_time = False
+            self.font_s.print(self.canvas, offset + 28, 6, time_color,
+                              "OVER")
+            self.font_s.print(self.canvas, offset + 28, 20, time_color,
+                              "TIME")
         elif mgr.gameState() == GameState.ot_first:
             time_color = GREEN
             show_time = True
@@ -282,9 +287,11 @@ class GameDisplay(object):
                               "over")
         elif mgr.gameState() == GameState.pre_ot:
             time_color = ORANGE
-            show_time = True
-            self.font_s.print(self.canvas, 22, 2, time_color,
-                              "PRE - O/T")
+            show_time = False
+            self.font_s.print(self.canvas, 38, 6, time_color,
+                              "OVER")
+            self.font_s.print(self.canvas, 38, 20, time_color,
+                              "TIME")
         elif mgr.gameState() == GameState.ot_first:
             time_color = GREEN
             show_time = True
