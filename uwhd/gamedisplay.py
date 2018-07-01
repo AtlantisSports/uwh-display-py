@@ -65,10 +65,10 @@ class GameDisplay(object):
             time_color = RED
             show_time = True
         elif mgr.timeoutState() == TimeoutState.white:
-            time_color = YELLOW
+            time_color = white_color
             show_time = True
         elif mgr.timeoutState() == TimeoutState.black:
-            time_color = YELLOW
+            time_color = black_color
             show_time = True
         elif mgr.gameState() == GameState.first_half:
             time_color = GREEN
