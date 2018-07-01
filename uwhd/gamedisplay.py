@@ -109,7 +109,15 @@ class GameDisplay(object):
             show_time = True
         elif mgr.gameState() == GameState.ot_half:
             time_color = ORANGE
-            show_time = True
+            show_time = False
+            self.font_s.print(self.canvas, 38, 0, time_color,
+                              "OVER")
+            self.font_s.print(self.canvas, 38, 8, time_color,
+                              "TIME")
+            self.font_s.print(self.canvas, 38, 17, time_color,
+                              "HALF")
+            self.font_s.print(self.canvas, 38, 25, time_color,
+                              "TIME")
         elif mgr.gameState() == GameState.ot_second:
             time_color = GREEN
             show_time = True
@@ -196,9 +204,12 @@ class GameDisplay(object):
                               "1st O/T")
         elif mgr.gameState() == GameState.ot_half:
             time_color = ORANGE
-            show_time = True
-            self.font_s.print(self.canvas, offset + 16, 2, time_color,
-                              "H/T O/T")
+            show_time = False
+
+            self.font_s.print(self.canvas, offset + 18, 6, time_color,
+                              "OVERTIME")
+            self.font_s.print(self.canvas, offset + 18, 17, time_color,
+                              "HALFTIME")
         elif mgr.gameState() == GameState.ot_second:
             time_color = GREEN
             self.font_s.print(self.canvas, offset + 16, 2, time_color,
@@ -299,9 +310,11 @@ class GameDisplay(object):
                               "1st - O/T")
         elif mgr.gameState() == GameState.ot_half:
             time_color = ORANGE
-            show_time = True
-            self.font_s.print(self.canvas, 22, 2, time_color,
-                              "1/2 - O/T")
+            show_time = False
+            self.font_s.print(self.canvas, 26, 6, time_color,
+                              "OVERTIME")
+            self.font_s.print(self.canvas, 26, 17, time_color,
+                              "HALFTIME")
         elif mgr.gameState() == GameState.ot_second:
             time_color = GREEN
             show_time = True
