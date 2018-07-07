@@ -1,5 +1,6 @@
 from .font import Font
 from .canvas import Canvas, Color
+from .cmas import cmas
 from uwh.gamemanager import PoolLayout, TimeoutState, GameState
 
 black_color = Color(  0,   0, 255)
@@ -84,12 +85,8 @@ class GameDisplay(object):
             self.font_s.print(self.canvas, 38, 20, time_color,
                               "time")
         elif mgr.gameState() == GameState.pre_game:
-            time_color = YELLOW
+            self.render_cmas()
             show_time = False
-            self.font_s.print(self.canvas, 38, 6, time_color,
-                              "pre")
-            self.font_s.print(self.canvas, 38, 20, time_color,
-                              "game")
         elif mgr.gameState() == GameState.game_over:
             time_color = RED
             show_time = False
@@ -185,12 +182,8 @@ class GameDisplay(object):
             self.font_s.print(self.canvas, offset + 28, 20, time_color,
                               "time")
         elif mgr.gameState() == GameState.pre_game:
-            time_color = YELLOW
+            self.render_cmas()
             show_time = False
-            self.font_s.print(self.canvas, offset + 28, 6, time_color,
-                              "pre")
-            self.font_s.print(self.canvas, offset + 28, 20, time_color,
-                              "game")
         elif mgr.gameState() == GameState.game_over:
             time_color = RED
             show_time = False
@@ -295,12 +288,8 @@ class GameDisplay(object):
             self.font_s.print(self.canvas, 38, 20, time_color,
                               "time")
         elif mgr.gameState() == GameState.pre_game:
-            time_color = YELLOW
+            self.render_cmas()
             show_time = False
-            self.font_s.print(self.canvas, 38, 6, time_color,
-                              "pre")
-            self.font_s.print(self.canvas, 38, 20, time_color,
-                              "game")
         elif mgr.gameState() == GameState.game_over:
             time_color = RED
             show_time = False
@@ -357,6 +346,20 @@ class GameDisplay(object):
             self.draw_colon(48, 16, time_color)
             self.draw_colon(48, 24, time_color)
 
+    def render_cmas(self):
+        import random, time
+        for y in range(0, 32):
+            for x in range(0, 32):
+                c = cmas(x, y) * min(1, 0.5 + random.random())
+                self.canvas.set(x + 16, y, Color(c, c, c/2))
+
+        c = 255 * 0.75
+        suffix = "\x01\x02\x03" if int(time.time()) % 4 >= 2 else "\x04\x05"
+        self.font_s.print(self.canvas, 50, 8, Color(c, c, c/2),
+                          "20" + suffix)
+
+        self.font_s.print(self.canvas, 50, 18, Color(c, c, c/2),
+                          "CMAS")
 
     def draw_colon(self, x, y, c):
         self.canvas.set(x,   y,   c)

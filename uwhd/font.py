@@ -80,7 +80,12 @@ class Font(object):
             'Z': 'fonts/5x7/ascii_Z.ppm',
             '{': 'fonts/5x7/ascii_LCURL.ppm',
             '}': 'fonts/5x7/ascii_RCURL.ppm',
-            ' ': 'fonts/5x7/ascii_SPACE.ppm'
+            ' ': 'fonts/5x7/ascii_SPACE.ppm',
+            '\x01': 'fonts/5x7/ascii_em1.ppm',
+            '\x02': 'fonts/5x7/ascii_em2.ppm',
+            '\x03': 'fonts/5x7/ascii_em3.ppm',
+            '\x04': 'fonts/5x7/ascii_th1.ppm',
+            '\x05': 'fonts/5x7/ascii_th2.ppm'
         }
 
         dir_path = os.path.dirname(os.path.realpath(__file__))
