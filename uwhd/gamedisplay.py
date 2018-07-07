@@ -354,12 +354,13 @@ class GameDisplay(object):
                 self.canvas.set(x + 16, y, Color(c, c, c/2))
 
         c = 255 * 0.75
-        suffix = "\x01\x02\x03" if int(time.time()) % 4 >= 2 else "\x04\x05"
+        rate = 4
+        suffix = "\x01\x02\x03" if int(time.time()) % (2*rate) >= rate else "\x04\x05"
         self.font_s.print(self.canvas, 50, 8, Color(c, c, c/2),
-                          "20" + suffix)
+                          "20" + suffix, shimmer=True)
 
         self.font_s.print(self.canvas, 50, 18, Color(c, c, c/2),
-                          "CMAS")
+                          "CMAS", shimmer=True)
 
     def draw_colon(self, x, y, c):
         self.canvas.set(x,   y,   c)

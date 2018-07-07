@@ -1,5 +1,6 @@
 import os
 from .ppm import PPMImage
+from random import random
 
 class Font(object):
     def __init__(self, name, w, h):
@@ -16,14 +17,15 @@ class Font(object):
         with open(filename, 'r') as img:
             self.map[c] = PPMImage.load(img).as_canvas()
 
-    def print(self, canvas, x, y, color, s):
+    def print(self, canvas, x, y, color, s, shimmer=False):
         def print_char(canvas, x, y, color, char_img):
             for yi in range(0, self.h):
               for xi in range(0, self.w):
                   ic = char_img.get(xi, yi)
-                  ic.r = (ic.r * color.r) / 255
-                  ic.g = (ic.g * color.g) / 255
-                  ic.b = (ic.b * color.b) / 255
+                  scale = min(1, 0.5 + random()) if shimmer else 1
+                  ic.r = scale * (ic.r * color.r) / 255
+                  ic.g = scale * (ic.g * color.g) / 255
+                  ic.b = scale * (ic.b * color.b) / 255
                   canvas.set(x + xi, y + yi, ic)
         xi = x
         for c in s:
