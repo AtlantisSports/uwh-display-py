@@ -21,6 +21,7 @@ mgr.setPassive()
 mgr.setBlackScore(0)
 mgr.setWhiteScore(0)
 mgr.setGameClock(0)
+mgr.setGameState(GameState.pre_game)
 mgr.setLayout(PoolLayout.white_on_left)
 
 cfg = XBeeConfigParser()
