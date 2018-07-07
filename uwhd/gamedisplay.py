@@ -353,7 +353,7 @@ class GameDisplay(object):
                 c = cmas(x, y) * min(1, 0.5 + random.random())
                 self.canvas.set(x + 16, y, Color(c, c, c/2))
 
-        c = 255 * 0.75
+        c = 255 * 0.85
         rate = 4
         suffix = "\x01\x02\x03" if int(time.time()) % (2*rate) >= rate else "\x04\x05"
         self.font_s.print(self.canvas, 50, 8, Color(c, c, c/2),
