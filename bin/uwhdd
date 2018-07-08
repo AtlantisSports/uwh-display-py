@@ -4,10 +4,11 @@ from uwhd.canvas import Canvas
 from uwhd.matrix_canvas_viewer import MatrixCanvasViewer
 from uwhd.gamedisplay import GameDisplay
 from uwh.gamemanager import GameManager
-from uwh.xbee_comms import XBeeClient, XBeeConfigParser, xbee_port, xbee_baud
+from uwh.xbee_comms import XBeeClient, XBeeConfigParser, xbee_port, xbee_baud, xbee_id, xbee_ch
 
 import sys
 import time
+import socket
 
 
 cfg = XBeeConfigParser()
@@ -17,6 +18,7 @@ mgr = GameManager()
 mgr.setPassive()
 
 xbee = XBeeClient(mgr, xbee_port(cfg), xbee_baud(cfg))
+xbee.setup(xbee_id(cfg), xbee_ch(cfg), socket.gethostname())
 xbee.listen_thread()
 
 gd = GameDisplay()

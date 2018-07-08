@@ -5,11 +5,12 @@ from uwhd.canvas import Canvas, Color
 from uwhd.ppm import PPMImage
 from uwhd.gamedisplay import GameDisplay
 from uwh.gamemanager import GameManager
-from uwh.xbee_comms import XBeeClient, XBeeConfigParser, xbee_port, xbee_baud
+from uwh.xbee_comms import XBeeClient, XBeeConfigParser, xbee_port, xbee_baud, xbee_id, xbee_ch
 from uwh.gamemanager import PoolLayout, TimeoutState, GameState
 
 import tkinter as tk
 import io
+import socket
 
 master = tk.Tk()
 
@@ -29,6 +30,7 @@ cfg.read('timeshark.cfg')
 
 if cfg.getboolean('hardware', 'has_xbee'):
     xbee = XBeeClient(mgr, xbee_port(cfg), xbee_baud(cfg))
+    xbee.setup(xbee_id(cfg), xbee_ch(cfg), socket.gethostname())
     xbee.listen_thread()
 
 gd = GameDisplay()
