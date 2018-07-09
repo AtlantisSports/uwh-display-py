@@ -85,7 +85,7 @@ class GameDisplay(object):
             self.font_s.print(self.canvas, 38, 20, time_color,
                               "time")
         elif mgr.gameState() == GameState.pre_game:
-            self.render_cmas()
+            self.render_cmas(mgr)
             show_time = False
         elif mgr.gameState() == GameState.game_over:
             time_color = RED
@@ -182,7 +182,7 @@ class GameDisplay(object):
             self.font_s.print(self.canvas, offset + 28, 20, time_color,
                               "time")
         elif mgr.gameState() == GameState.pre_game:
-            self.render_cmas()
+            self.render_cmas(mgr)
             show_time = False
         elif mgr.gameState() == GameState.game_over:
             time_color = RED
@@ -288,7 +288,7 @@ class GameDisplay(object):
             self.font_s.print(self.canvas, 38, 20, time_color,
                               "time")
         elif mgr.gameState() == GameState.pre_game:
-            self.render_cmas()
+            self.render_cmas(mgr)
             show_time = False
         elif mgr.gameState() == GameState.game_over:
             time_color = RED
@@ -346,20 +346,39 @@ class GameDisplay(object):
             self.draw_colon(48, 16, time_color)
             self.draw_colon(48, 24, time_color)
 
-    def render_cmas(self):
+    def is_gold(self, mgr):
+        return mgr.gid() == 269 or mgr.gid() == 270 or mgr.gid() == 271 or mgr.gid() == 272
+
+    def is_bronze(self, mgr):
+        return mgr.gid() == 265 or mgr.gid() == 266 or mgr.gid() == 267 or mgr.gid() == 268
+
+    def render_cmas(self, mgr):
         import random, time
         for y in range(0, 32):
             for x in range(0, 32):
                 c = cmas(x, y) * min(1, 0.5 + random.random())
-                self.canvas.set(x + 16, y, Color(c, c, c/2))
+                if self.is_gold(mgr):
+                    color = Color(c, c, c/2)
+                elif self.is_bronze(mgr):
+                    color = Color(c, c/2, c/7)
+                else:
+                    color = Color(c*2/3, c*2/3, c)
+                self.canvas.set(x + 16, y, color)
 
         c = 255 * 0.85
+        if self.is_gold(mgr):
+            color = Color(c, c, c/2)
+        elif self.is_bronze(mgr):
+            color = Color(c, c/2, c/7)
+        else:
+            color = Color(c*2/3, c*2/3, c)
+
         rate = 4
         suffix = "\x01\x02\x03" if int(time.time()) % (2*rate) >= rate else "\x04\x05"
-        self.font_s.print(self.canvas, 50, 8, Color(c, c, c/2),
+        self.font_s.print(self.canvas, 50, 8, color,
                           "20" + suffix, shimmer=True)
 
-        self.font_s.print(self.canvas, 50, 18, Color(c, c, c/2),
+        self.font_s.print(self.canvas, 50, 18, color,
                           "CMAS", shimmer=True)
 
     def draw_colon(self, x, y, c):
