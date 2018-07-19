@@ -43,6 +43,7 @@ def do_render():
     gd.render(mgr)
     cvv.show(gd.canvas)
     cvv.w.after(100, do_render)
+
 cvv.w.after(100, do_render)
 
 tk.mainloop()
