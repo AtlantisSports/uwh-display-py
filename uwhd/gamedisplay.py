@@ -160,12 +160,12 @@ class GameDisplay(object):
             time_color = YELLOW
             show_time = True
             self.font_s.print(self.canvas, offset + 16, 2, time_color,
-                              "pre game")
+                              "nxt game")
         elif mgr.gameState() == GameState.game_over:
             time_color = YELLOW
             show_time = True
             self.font_s.print(self.canvas, offset + 16, 2, time_color,
-                              "pre game")
+                              "nxt game")
             game_clock += 3 * 60
         elif mgr.gameState() == GameState.pre_ot:
             time_color = ORANGE
@@ -256,12 +256,12 @@ class GameDisplay(object):
             time_color = YELLOW
             show_time = True
             self.font_s.print(self.canvas, 22, 2, time_color,
-                              "pre game")
+                              "next game")
         elif mgr.gameState() == GameState.game_over:
             time_color = YELLOW
             show_time = True
             self.font_s.print(self.canvas, 22, 2, time_color,
-                              "pre game")
+                              "next game")
             game_clock += 3 * 60
         elif mgr.gameState() == GameState.pre_ot:
             time_color = ORANGE
