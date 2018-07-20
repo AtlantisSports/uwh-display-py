@@ -1,6 +1,5 @@
 from .font import Font
 from .canvas import Canvas, Color
-from .cmas import cmas
 from uwh.gamemanager import PoolLayout, TimeoutState, GameState
 
 black_color = Color(  0,   0, 255)
@@ -59,6 +58,8 @@ class GameDisplay(object):
         self.font_l.print(self.canvas, 65, 1, self.right_color(mgr),
                           "%2d" % (self.right_score(mgr),))
 
+        game_clock = mgr.gameClock()
+
         if mgr.timeoutState() == TimeoutState.ref:
             time_color = YELLOW
             show_time = True
@@ -82,14 +83,11 @@ class GameDisplay(object):
             show_time = True
         elif mgr.gameState() == GameState.pre_game:
             time_color = YELLOW
-            if mgr.gameClock() > 120:
-                self.render_cmas(mgr)
-                show_time = False
-            else:
-                show_time = True
+            show_time = True
         elif mgr.gameState() == GameState.game_over:
             time_color = RED
             show_time = True
+            game_clock += 3 * 60
         elif mgr.gameState() == GameState.pre_ot:
             time_color = ORANGE
             show_time = True
@@ -111,14 +109,17 @@ class GameDisplay(object):
 
         if show_time:
             self.font_m.print(self.canvas, 38, 2, time_color,
-                              "%d" % (mgr.gameClock() // 60,))
+                              "%d" % (game_clock // 60,))
 
             self.font_s.print(self.canvas, 38, 23, time_color,
-                              ":%02d" % (mgr.gameClock() % 60,))
+                              ":%02d" % (game_clock % 60,))
 
     def render_medium(self, mgr):
         self.font_l.print(self.canvas, 65, 1, self.right_color(mgr),
                           "%2d" % (self.right_score(mgr),))
+
+        game_clock = mgr.gameClock()
+
         offset = 0 if self.left_score(mgr) < 10 else 16
         if mgr.timeoutState() == TimeoutState.ref:
             time_color = YELLOW
@@ -157,18 +158,15 @@ class GameDisplay(object):
                               "1/2 time")
         elif mgr.gameState() == GameState.pre_game:
             time_color = YELLOW
-            if mgr.gameClock() > 120:
-                self.render_cmas(mgr)
-                show_time = False
-            else:
-                show_time = True
+            show_time = True
             self.font_s.print(self.canvas, offset + 16, 2, time_color,
                               "pre game")
         elif mgr.gameState() == GameState.game_over:
-            time_color = RED
+            time_color = YELLOW
             show_time = True
             self.font_s.print(self.canvas, offset + 16, 2, time_color,
-                              "game ovr")
+                              "pre game")
+            game_clock += 3 * 60
         elif mgr.gameState() == GameState.pre_ot:
             time_color = ORANGE
             show_time = True
@@ -202,10 +200,10 @@ class GameDisplay(object):
 
         if show_time:
             self.font_m.print(self.canvas, offset + 15, 10, time_color,
-                              "{:>2}".format(mgr.gameClock() // 60))
+                              "{:>2}".format(game_clock // 60))
 
             self.font_m.print(self.canvas, offset + 42, 10, time_color,
-                              "{:0>2}".format(mgr.gameClock() % 60))
+                              "{:0>2}".format(game_clock % 60))
             self.draw_colon(offset + 39, 16, time_color)
             self.draw_colon(offset + 39, 24, time_color)
 
@@ -256,19 +254,15 @@ class GameDisplay(object):
                               "1/2  time")
         elif mgr.gameState() == GameState.pre_game:
             time_color = YELLOW
-            if mgr.gameClock() > 120:
-                self.render_cmas(mgr)
-                show_time = False
-            else:
-                show_time = True
-
+            show_time = True
             self.font_s.print(self.canvas, 22, 2, time_color,
                               "pre game")
         elif mgr.gameState() == GameState.game_over:
-            time_color = RED
+            time_color = YELLOW
             show_time = True
             self.font_s.print(self.canvas, 22, 2, time_color,
-                              "Game Over")
+                              "pre game")
+            game_clock += 3 * 60
         elif mgr.gameState() == GameState.pre_ot:
             time_color = ORANGE
             show_time = True
@@ -302,48 +296,14 @@ class GameDisplay(object):
 
         if show_time:
             self.font_m.print(self.canvas, 22, 10, time_color,
-                              "{:>2}".format(mgr.gameClock() // 60))
+                              "{:>2}".format(game_clock // 60))
 
             self.font_m.print(self.canvas, 53, 10, time_color,
-                              "{:0>2}".format(mgr.gameClock() % 60))
+                              "{:0>2}".format(game_clock % 60))
 
             self.draw_colon(48, 16, time_color)
             self.draw_colon(48, 24, time_color)
 
-    def is_gold(self, mgr):
-        return mgr.gid() == 269 or mgr.gid() == 270 or mgr.gid() == 271 or mgr.gid() == 272
-
-    def is_bronze(self, mgr):
-        return mgr.gid() == 265 or mgr.gid() == 266 or mgr.gid() == 267 or mgr.gid() == 268
-
-    def render_cmas(self, mgr):
-        import random, time
-        for y in range(0, 32):
-            for x in range(0, 32):
-                c = cmas(x, y) * min(1, 0.5 + random.random())
-                if self.is_gold(mgr):
-                    color = Color(c, c, c/2)
-                elif self.is_bronze(mgr):
-                    color = Color(c, c/2, c/7)
-                else:
-                    color = Color(c*2/3, c*2/3, c)
-                self.canvas.set(x + 16, y, color)
-
-        c = 255 * 0.85
-        if self.is_gold(mgr):
-            color = Color(c, c, c/2)
-        elif self.is_bronze(mgr):
-            color = Color(c, c/2, c/7)
-        else:
-            color = Color(c*2/3, c*2/3, c)
-
-        rate = 4
-        suffix = "\x01\x02\x03" if int(time.time()) % (2*rate) >= rate else "\x04\x05"
-        self.font_s.print(self.canvas, 50, 8, color,
-                          "20" + suffix, shimmer=True)
-
-        self.font_s.print(self.canvas, 50, 18, color,
-                          "CMAS", shimmer=True)
 
     def draw_colon(self, x, y, c):
         self.canvas.set(x,   y,   c)
