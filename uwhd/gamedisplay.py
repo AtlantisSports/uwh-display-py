@@ -81,11 +81,11 @@ class GameDisplay(object):
             time_color = ORANGE
             show_time = True
         elif mgr.gameState() == GameState.pre_game:
+            time_color = YELLOW
             if mgr.gameClock() > 120:
                 self.render_cmas(mgr)
                 show_time = False
             else:
-                time_color = YELLOW
                 show_time = True
         elif mgr.gameState() == GameState.game_over:
             time_color = RED
@@ -156,11 +156,11 @@ class GameDisplay(object):
             self.font_s.print(self.canvas, offset + 16, 2, time_color,
                               "1/2 time")
         elif mgr.gameState() == GameState.pre_game:
+            time_color = YELLOW
             if mgr.gameClock() > 120:
                 self.render_cmas(mgr)
                 show_time = False
             else:
-                time_color = YELLOW
                 show_time = True
             self.font_s.print(self.canvas, offset + 16, 2, time_color,
                               "pre game")
@@ -255,11 +255,11 @@ class GameDisplay(object):
             self.font_s.print(self.canvas, 22, 2, time_color,
                               "1/2  time")
         elif mgr.gameState() == GameState.pre_game:
+            time_color = YELLOW
             if mgr.gameClock() > 120:
                 self.render_cmas(mgr)
                 show_time = False
             else:
-                time_color = YELLOW
                 show_time = True
 
             self.font_s.print(self.canvas, 22, 2, time_color,
