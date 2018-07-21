@@ -217,6 +217,8 @@ class GameDisplay(object):
         self.font_l.print(self.canvas, 81, 1, self.right_color(mgr),
                           "%1d" % (self.right_score(mgr),))
 
+        game_clock = mgr.gameClock()
+
         if mgr.timeoutState() == TimeoutState.ref:
             time_color = YELLOW
             show_time = True
