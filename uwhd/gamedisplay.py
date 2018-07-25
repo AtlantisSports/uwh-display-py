@@ -2,7 +2,7 @@ from .font import Font
 from .canvas import Canvas, Color
 from uwh.gamemanager import PoolLayout, TimeoutState, GameState
 
-black_color = Color(  0,   0, 255)
+black_color = Color(0x50, 0x50, 255)
 white_color = Color(255, 255, 255)
 GREEN  = Color(  0, 255,   0)
 ORANGE = Color(255, 128,   0)
