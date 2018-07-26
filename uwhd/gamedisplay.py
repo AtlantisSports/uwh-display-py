@@ -2,6 +2,8 @@ from .font import Font
 from .canvas import Canvas, Color
 from uwh.gamemanager import PoolLayout, TimeoutState, GameState
 
+from Adafruit_LED_Backpack import SevenSegment, AlphaNum4
+
 black_color = Color( 64, 128, 255)
 white_color = Color(255, 255, 255)
 GREEN  = Color(  0, 255,   0)
@@ -16,8 +18,35 @@ class GameDisplay(object):
         self.font_m = Font.get_11x20()
         self.font_l = Font.get_15x29()
 
+        self.score_str = None
+        self.score_backpack = AlphaNum4.AlphaNum4(address=0x70)
+        self.score_backpack.begin()
+
+        self.time_str = None
+        self.time_backpack = SevenSegment.SevenSegment(address=0x71)
+        self.time_backpack.begin()
+
     def render(self, mgr):
         self.render_base(mgr)
+        self.render_backpack(mgr)
+
+    def render_backpack(self, mgr):
+        score_str = "%2d%2d" % (mgr.whiteScore(), mgr.blackScore())
+
+        if score_str != self.score_str:
+            self.score_str = score_str
+            self.score_backpack.print_str(self.score_str)
+            self.score_backpack.write_display()
+
+        time_str = "%2d%02d" % (
+                   mgr.gameClockAtPause() // 60,
+                   mgr.gameClockAtPause() % 60)
+
+        if time_str != self.time_str:
+            self.time_str = time_str
+            self.time_backpack.print_number_str(self.time_str)
+            self.time_backpack.set_colon(True)
+            self.time_backpack.write_display()
 
     def render_base(self, mgr):
         self.canvas.clear()
