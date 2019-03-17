@@ -151,4 +151,28 @@ class Font(object):
 
         return f
 
+    @staticmethod
+    def get_30x58():
+        f = Font("30x58", 30, 58)
+
+        chars = {
+            '0': 'fonts/30x58/ascii_0.ppm',
+            '1': 'fonts/30x58/ascii_1.ppm',
+            '2': 'fonts/30x58/ascii_2.ppm',
+            '3': 'fonts/30x58/ascii_3.ppm',
+            '4': 'fonts/30x58/ascii_4.ppm',
+            '5': 'fonts/30x58/ascii_5.ppm',
+            '6': 'fonts/30x58/ascii_6.ppm',
+            '7': 'fonts/30x58/ascii_7.ppm',
+            '8': 'fonts/30x58/ascii_8.ppm',
+            '9': 'fonts/30x58/ascii_9.ppm',
+            ' ': 'fonts/30x58/ascii_SPACE.ppm'
+        }
+
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+
+        for k, v in chars.items():
+            f.insert(k, os.path.join(dir_path, v))
+
+        return f
 

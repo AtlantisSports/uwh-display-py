@@ -25,7 +25,8 @@ class Canvas(object):
         return self.c[y][x].copy()
 
     def set(self, x, y, c):
-        self.c[y][x] = c
+        if x < self.w and y < self.h:
+            self.c[y][x] = c
 
     def clear(self):
         for i in range(self.w):

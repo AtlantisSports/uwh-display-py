@@ -48,7 +48,7 @@ class PPMImage(object):
         color_data = [int(x) for x in color_data]
 
         if len(color_data) != w * h * 3:
-            raise PPMException("Dimensions don't match color data")
+            raise PPMException("Dimensions don't match color data %d != %d * %d * 3" % (len(color_data), w, h))
 
         return PPMImage(w, h, color_data)
 

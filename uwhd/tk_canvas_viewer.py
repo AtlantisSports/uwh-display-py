@@ -17,7 +17,7 @@ class TkCanvasViewer(CanvasViewer):
 
     def show_px(self, x, y, color):
         self.w.create_rectangle((x + 0) * self.px_w, (y + 0) * self.px_h,
-                                (x + 1) * self.px_w, (y + 1) * self.px_w,
+                                (x + 1) * self.px_w, (y + 1) * self.px_h,
                                 fill=color.as_hex())
 
     def show(self, c):
