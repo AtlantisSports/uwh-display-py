@@ -28,10 +28,11 @@ mgr.setLayout(PoolLayout.white_on_left)
 cfg = XBeeConfigParser()
 cfg.read('timeshark.cfg')
 
-if cfg.getboolean('hardware', 'has_xbee'):
-    xbee = XBeeClient(mgr, xbee_port(cfg), xbee_baud(cfg))
-    xbee.setup(xbee_id(cfg), xbee_ch(cfg), socket.gethostname())
-    xbee.listen_thread()
+if cfg.has_section('hardware'):
+    if cfg.getboolean('hardware', 'has_xbee'):
+        xbee = XBeeClient(mgr, xbee_port(cfg), xbee_baud(cfg))
+        xbee.setup(xbee_id(cfg), xbee_ch(cfg), socket.gethostname())
+        xbee.listen_thread()
 
 gd = GameDisplay()
 gd.render(mgr)
