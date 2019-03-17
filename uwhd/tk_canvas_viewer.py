@@ -5,8 +5,8 @@ import tkinter as tk
 
 class TkCanvasViewer(CanvasViewer):
     def __init__(self, master, c):
-        self.canv_w = 600
-        self.canv_h = 200
+        self.canv_w = 1200
+        self.canv_h = 400
         w = tk.Canvas(master, width=self.canv_w, height=self.canv_h)
         w.pack()
         self.w = w;
