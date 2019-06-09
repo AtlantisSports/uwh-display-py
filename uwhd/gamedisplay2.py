@@ -45,10 +45,14 @@ class GameDisplay2(object):
             return black_color
 
     def render(self, mgr):
-        self.font_xl.print(self.canvas,   1, 1, self.left_color(mgr),
-                           "%1d" % (self.left_score(mgr),))
-        self.font_xl.print(self.canvas, 196, 1, self.right_color(mgr),
-                           "%1d" % (self.right_score(mgr),))
+        lscore = self.left_score(mgr)
+        loffs = 0 if 10 <= lscore else 16
+        self.font_xl.print(self.canvas,   2 + loffs, 3, self.left_color(mgr),
+                           "%d" % (lscore,))
+        rscore = self.right_score(mgr)
+        roffs = 0 if 10 <= rscore else 16
+        self.font_xl.print(self.canvas, 194 + roffs, 3, self.right_color(mgr),
+                           "%d" % (rscore,))
 
         game_clock = mgr.gameClock()
 
