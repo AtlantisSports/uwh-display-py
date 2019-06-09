@@ -117,23 +117,23 @@ class GameDisplay2(object):
             self.draw_colon(125 + 32, 36 + 5, period_color)
             self.draw_colon(125 + 32, 48 + 5, period_color)
 
-            self.draw_pie(72, 24, 8, 0.75, WHITE)
-            self.font_s.print(self.canvas, 67, 21, RED, "25", alpha=True)
+            self.draw_pie(72, 24, 8, 0.75, RED)
+            self.font_s.print(self.canvas, 67, 21, WHITE, "25", alpha=True)
 
-            self.draw_pie(72 + 18, 24, 8, 0.5, WHITE)
-            self.font_s.print(self.canvas, 67 + 18, 21, RED, "13", alpha=True)
+            self.draw_pie(72 + 18, 24, 8, 0.5, RED)
+            self.font_s.print(self.canvas, 67 + 18, 21, WHITE, "13", alpha=True)
 
-            self.draw_pie(72 + 36, 24, 8, 0.25, WHITE)
-            self.font_s.print(self.canvas, 67 + 36, 21, RED, "69", alpha=True)
+            self.draw_pie(72 + 36, 24, 8, 0.25, RED)
+            self.font_s.print(self.canvas, 67 + 36, 21, WHITE, "69", alpha=True)
 
-            self.draw_pie(72, 24 + 16, 8, 0.3, BLUE)
-            self.font_s.print(self.canvas, 67, 21 + 16, RED, "25", alpha=True)
+            self.draw_pie(72, 24 + 16, 8, 0.3, RED)
+            self.font_s.print(self.canvas, 67, 21 + 16, BLUE, "25", alpha=True)
 
-            self.draw_pie(72 + 18, 24 + 16, 8, 0.8, BLUE)
-            self.font_s.print(self.canvas, 67 + 18, 21 + 16, RED, "91", alpha=True)
+            self.draw_pie(72 + 18, 24 + 16, 8, 0.8, RED)
+            self.font_s.print(self.canvas, 67 + 18, 21 + 16, BLUE, "91", alpha=True)
 
-            self.draw_pie(72 + 36, 24 + 16, 8, 0.45, BLUE)
-            self.font_s.print(self.canvas, 67 + 36, 21 + 16, RED, "72", alpha=True)
+            self.draw_pie(72 + 36, 24 + 16, 8, 0.45, RED)
+            self.font_s.print(self.canvas, 67 + 36, 21 + 16, BLUE, "72", alpha=True)
         else:
             self.font_s.print(self.canvas, 65 + 1, 1, period_color,
                               period_text.replace('\n', ' '))
