@@ -2,8 +2,8 @@ from .font import Font
 from .canvas import Canvas, Color
 from uwh.gamemanager import PoolLayout, TimeoutState, GameState
 
-black_color = Color( 64, 128, 255)
-white_color = Color(255, 255, 255)
+BLUE = Color( 64, 128, 255)
+WHITE = Color(255, 255, 255)
 GREEN  = Color(  0, 255,   0)
 ORANGE = Color(255, 128,   0)
 RED    = Color(255,   0,   0)
@@ -28,9 +28,9 @@ class GameDisplay2(object):
 
     def left_color(self, mgr):
         if mgr.layout() == PoolLayout.white_on_right:
-            return black_color
+            return BLUE
         else:
-            return white_color
+            return WHITE
 
     def right_score(self, mgr):
         if mgr.layout() == PoolLayout.white_on_right:
@@ -40,9 +40,9 @@ class GameDisplay2(object):
 
     def right_color(self, mgr):
         if mgr.layout() == PoolLayout.white_on_right:
-            return white_color
+            return WHITE
         else:
-            return black_color
+            return BLUE
 
     def render(self, mgr):
         lscore = self.left_score(mgr)
@@ -55,66 +55,73 @@ class GameDisplay2(object):
                            "%d" % (rscore,))
 
         game_clock = mgr.gameClockAtPause()
+        timeout_clock = mgr.gameClock()
 
-        if mgr.timeoutState() == TimeoutState.ref:
-            state_color = YELLOW
-            state_text = " REF T/O "
-        elif mgr.timeoutState() == TimeoutState.penalty_shot:
-            state_color = RED
-            state_text = "PNLTY SHT"
-        elif mgr.timeoutState() == TimeoutState.white:
-            state_color = YELLOW
-            state_text = "WHITE T/O"
-        elif mgr.timeoutState() == TimeoutState.black:
-            state_color = YELLOW
-            state_text = "BLACK T/O"
-        elif mgr.gameState() == GameState.first_half:
-            state_color = GREEN
-            state_text = "1st  half"
-        elif mgr.gameState() == GameState.second_half:
-            state_color = GREEN
-            state_text = "2nd  half"
-        elif mgr.gameState() == GameState.half_time:
-            state_color = ORANGE
-            state_text = "1/2  time"
-        elif mgr.gameState() == GameState.pre_game:
-            state_color = YELLOW
-            state_text = "next game"
-        elif mgr.gameState() == GameState.game_over:
-            state_color = YELLOW
-            state_text = "next game"
-            game_clock += 3 * 60
-        elif mgr.gameState() == GameState.pre_ot:
-            state_color = ORANGE
-            state_text = "PRE - O/T"
-        elif mgr.gameState() == GameState.ot_first:
-            state_color = GREEN
-            state_text = "1st OVRTM"
-        elif mgr.gameState() == GameState.ot_half:
-            state_color = ORANGE
-            state_text = "1/2 - O/T"
-        elif mgr.gameState() == GameState.ot_second:
-            state_color = GREEN
-            state_text = "2nd OVRTM"
-        elif mgr.gameState() == GameState.pre_sudden_death:
-            state_color = ORANGE
-            state_text = "PRE - S/D"
-        elif mgr.gameState() == GameState.sudden_death:
-            state_color = GREEN
-            state_text = "sdn death"
+        state_color, state_text = {
+            TimeoutState.ref: (YELLOW, "REF\nTIMEOUT "),
+            TimeoutState.penalty_shot: (RED, "PENALTY\nSHOT"),
+            TimeoutState.white: (WHITE, "WHITE\nTIMEOUT"),
+            TimeoutState.black: (BLUE, "BLACK\nTIMEOUT")
+        }[mgr.timeoutState()]
 
-        self.font_s.print(self.canvas, 100, 12, state_color,
-                          state_text)
+        period_color, period_text = {
+            GameState.first_half: (GREEN, "FIRST\nHALF"),
+            GameState.second_half: (GREEN, "SECOND\nHALF"),
+            GameState.half_time: (ORANGE, "HALF\nTIME"),
+            GameState.pre_game: (YELLOW, "NEXT\nGAME"),
+            GameState.game_over: (YELLOW, "NEXT\nGAME"),
+            GameState.pre_ot: (ORANGE, "PRE\nOVERTIME"),
+            GameState.ot_first: (GREEN, "FIRST\nOVERTIME"),
+            GameState.ot_half: (GREEN, "OVERTIME\nHALFTIME"),
+            GameState.ot_second: (GREEN, "SECOND\nOVERTIME"),
+            GameState.pre_sudden_death: (ORANGE, "PRE SUDDEN\nDEATH"),
+            GameState.sudden_death: (GREEN, "SUDDEN\nDEATH")
+        }[mgr.gameState()]
 
-        # Game Clock
-        self.font_l.print(self.canvas,  93, 28, YELLOW,
-                          "{:>2}".format(game_clock // 60))
+        if (mgr.timeoutState() == TimeoutState.penalty_shot or
+            mgr.timeoutState() == TimeoutState.ref or
+            mgr.timeoutState() == TimeoutState.white or
+            mgr.timeoutState() == TimeoutState.black):
+            if mgr.gameState() == GameState.game_over:
+                game_clock += 3 * 60
 
-        self.font_l.print(self.canvas, 128, 28, YELLOW,
-                          "{:0>2}".format(game_clock % 60))
+            if period_color == GREEN:
+                period_color = YELLOW
 
-        self.draw_colon(125, 36, state_color)
-        self.draw_colon(125, 48, state_color)
+            self.font_s.print(self.canvas,  65, 1, state_color, state_text)
+            self.font_s.print(self.canvas,  65, 64 - 15 - 1, period_color, period_text)
+
+            self.font_l.print(self.canvas,  93 + 32, 1, state_color,
+                              "{:>2}".format(timeout_clock // 60))
+
+            self.font_l.print(self.canvas, 128 + 32, 1, state_color,
+                              "{:0>2}".format(timeout_clock % 60))
+
+            self.draw_colon(125 + 32,  8 + 5, state_color)
+            self.draw_colon(125 + 32, 20 + 5, state_color)
+
+            # Game Clock
+            self.font_l.print(self.canvas,  93 + 32, 28 + 5, period_color,
+                              "{:>2}".format(game_clock // 60))
+
+            self.font_l.print(self.canvas, 128 + 32, 28 + 5, period_color,
+                              "{:0>2}".format(game_clock % 60))
+
+            self.draw_colon(125 + 32, 36 + 5, period_color)
+            self.draw_colon(125 + 32, 48 + 5, period_color)
+        else:
+            self.font_s.print(self.canvas, 100, 12, period_color,
+                                              period_text)
+
+            # Game Clock
+            self.font_l.print(self.canvas,  93, 28, period_color,
+                                              "{:>2}".format(game_clock // 60))
+
+            self.font_l.print(self.canvas, 128, 28, period_color,
+                                              "{:0>2}".format(game_clock % 60))
+
+            self.draw_colon(125, 36, period_color)
+            self.draw_colon(125, 48, period_color)
 
 
     def draw_colon(self, x, y, c):
