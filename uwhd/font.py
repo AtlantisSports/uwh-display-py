@@ -28,9 +28,14 @@ class Font(object):
                   ic.b = scale * (ic.b * color.b) / 255
                   canvas.set(x + xi, y + yi, ic)
         xi = x
+        yi = y
         for c in s:
-            print_char(canvas, xi, y, color, self.get_character(c))
-            xi += self.w + 1
+            if c == '\n':
+                xi = x
+                yi += self.h + 1
+            else:
+                print_char(canvas, xi, yi, color, self.get_character(c))
+                xi += self.w + 1
 
     @staticmethod
     def get_5x7():
