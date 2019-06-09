@@ -16,8 +16,9 @@ class TkCanvasViewer(CanvasViewer):
         self.px_h = 5
         self.canv_w = self.px_w * window['w']
         self.canv_h = self.px_h * window['h']
-        t = tk.Toplevel(master, width=self.canv_w, height=self.canv_h)
-        w = tk.Canvas(t, width=self.canv_w, height=self.canv_h)
+        f = tk.Frame(master, width=self.canv_w, height=self.canv_h)
+        f.pack()
+        w = tk.Canvas(f, width=self.canv_w, height=self.canv_h)
         w.pack()
         self.w = w;
 
