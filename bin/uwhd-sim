@@ -41,11 +41,18 @@ panels = ['v1', 'left', 'center', 'right']
 for panel in panels:
     if panel == 'v1':
         gd[panel] = GameDisplay()
+        window = None
     else:
         gd[panel] = GameDisplay2(panel)
+        window = {
+            'w': 128 if panel == 'center' else 64,
+            'h': 64,
+            'x': { 'left': 0, 'center': 64, 'right': 3 * 64 }[panel],
+            'y': 0
+        }
     gd[panel].render(mgr)
 
-    cvv = TkCanvasViewer(master, gd[panel].canvas, panel)
+    cvv = TkCanvasViewer(master, gd[panel].canvas, panel, window)
     cvv.show(gd[panel].canvas)
 
 for panel in panels:
