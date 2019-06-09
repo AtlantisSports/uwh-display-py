@@ -2,7 +2,11 @@ from .font import Font
 from .canvas import Canvas, Color
 from uwh.gamemanager import PoolLayout, TimeoutState, GameState
 
-from Adafruit_LED_Backpack import SevenSegment, AlphaNum4
+try:
+  from Adafruit_LED_Backpack import SevenSegment, AlphaNum4
+  HAS_BACKPACK = True
+except ImportError:
+  HAS_BACKPACK = False
 
 black_color = Color( 64, 128, 255)
 white_color = Color(255, 255, 255)
@@ -21,13 +25,17 @@ class GameDisplay(object):
         self.score_str = None
         self.time_str = None
 
-        try:
-            self.score_backpack = AlphaNum4.AlphaNum4(address=0x70)
-            self.score_backpack.begin()
+        if HAS_BACKPACK:
+            try:
+                self.score_backpack = AlphaNum4.AlphaNum4(address=0x70)
+                self.score_backpack.begin()
 
-            self.time_backpack = SevenSegment.SevenSegment(address=0x71)
-            self.time_backpack.begin()
-        except FileNotFoundError:
+                self.time_backpack = SevenSegment.SevenSegment(address=0x71)
+                self.time_backpack.begin()
+            except FileNotFoundError:
+                self.score_backpack = None
+                self.time_backpack = None
+        else:
             self.score_backpack = None
             self.time_backpack = None
 
