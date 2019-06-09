@@ -2,12 +2,15 @@ from .font import Font
 from .canvas import Canvas, Color
 from uwh.gamemanager import PoolLayout, TimeoutState, GameState
 
+import math
+
 BLUE = Color( 64, 128, 255)
 WHITE = Color(255, 255, 255)
 GREEN  = Color(  0, 255,   0)
 ORANGE = Color(255, 128,   0)
 RED    = Color(255,   0,   0)
 YELLOW = Color(255, 255,   0)
+GRAY = Color(128, 128, 128)
 
 class GameDisplay2(object):
     def __init__(self):
@@ -113,6 +116,24 @@ class GameDisplay2(object):
 
             self.draw_colon(125 + 32, 36 + 5, period_color)
             self.draw_colon(125 + 32, 48 + 5, period_color)
+
+            self.draw_pie(72, 24, 8, 0.75, WHITE)
+            self.font_s.print(self.canvas, 67, 21, RED, "25", alpha=True)
+
+            self.draw_pie(72 + 18, 24, 8, 0.5, WHITE)
+            self.font_s.print(self.canvas, 67 + 18, 21, RED, "13", alpha=True)
+
+            self.draw_pie(72 + 36, 24, 8, 0.25, WHITE)
+            self.font_s.print(self.canvas, 67 + 36, 21, RED, "69", alpha=True)
+
+            self.draw_pie(72, 24 + 16, 8, 0.3, BLUE)
+            self.font_s.print(self.canvas, 67, 21 + 16, RED, "25", alpha=True)
+
+            self.draw_pie(72 + 18, 24 + 16, 8, 0.8, BLUE)
+            self.font_s.print(self.canvas, 67 + 18, 21 + 16, RED, "91", alpha=True)
+
+            self.draw_pie(72 + 36, 24 + 16, 8, 0.45, BLUE)
+            self.font_s.print(self.canvas, 67 + 36, 21 + 16, RED, "72", alpha=True)
         else:
             self.font_s.print(self.canvas, 65 + 1, 1, period_color,
                               period_text.replace('\n', ' '))
@@ -137,3 +158,14 @@ class GameDisplay2(object):
     def draw_skinnycolon(self, x, y, c):
         self.canvas.set(x,   y, c)
         self.canvas.set(x+1, y, c)
+
+    def draw_pie(self, x, y, r, p, c):
+        for yo in range(-r, r, 1):
+            for xo in range(-r, r, 1):
+                if xo * xo + yo * yo >= r * r:
+                    continue
+
+                if math.atan2(xo, yo) + math.pi > 2 * math.pi * p:
+                    self.canvas.set(x + xo, y + yo, GRAY)
+                else:
+                    self.canvas.set(x + xo, y + yo, c)
