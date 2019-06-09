@@ -10,9 +10,7 @@ RED    = Color(255,   0,   0)
 YELLOW = Color(255, 255,   0)
 
 class GameDisplay2(object):
-    def __init__(self, panel):
-        self.panel = panel
-
+    def __init__(self):
         self.canvas = Canvas(64 * 4, 64)
         self.font_s = Font.get_5x7()
         self.font_m = Font.get_11x20()

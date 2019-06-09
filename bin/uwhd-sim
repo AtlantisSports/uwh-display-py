@@ -43,7 +43,7 @@ for panel in panels:
         gd[panel] = GameDisplay()
         window = None
     else:
-        gd[panel] = GameDisplay2(panel)
+        gd[panel] = GameDisplay2()
         window = {
             'w': 128 if panel == 'center' else 64,
             'h': 64,
