@@ -5,8 +5,10 @@ import tkinter as tk
 
 class TkCanvasViewer(CanvasViewer):
     def __init__(self, master, c, title):
-        self.canv_w = 1200
-        self.canv_h = 400
+        self.px_w = 5
+        self.px_h = 5
+        self.canv_w = self.px_w * c.w
+        self.canv_h = self.px_h * c.h
         f = tk.Frame(master, width=self.canv_w, height=self.canv_h)
         f.pack()
         w = tk.Canvas(f, width=self.canv_w, height=self.canv_h)
@@ -14,8 +16,6 @@ class TkCanvasViewer(CanvasViewer):
         self.w = w;
         self.master = master
 
-        self.px_w = self.canv_w / c.w
-        self.px_h = self.canv_h / c.h
 
     def show_px(self, x, y, color):
         self.w.create_rectangle((x + 0) * self.px_w, (y + 0) * self.px_h,
