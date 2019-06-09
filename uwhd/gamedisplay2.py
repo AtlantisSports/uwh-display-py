@@ -58,90 +58,75 @@ class GameDisplay2(object):
 
         if mgr.timeoutState() == TimeoutState.ref:
             time_color = YELLOW
-            show_time = True
-            self.font_s.print(self.canvas, 22, 2, time_color,
+            self.font_s.print(self.canvas, 100, 12, time_color,
                               " REF T/O ")
         elif mgr.timeoutState() == TimeoutState.penalty_shot:
             time_color = RED
-            show_time = True
-            self.font_s.print(self.canvas, 22, 2, time_color,
+            self.font_s.print(self.canvas, 100, 12, time_color,
                               "PNLTY SHT")
         elif mgr.timeoutState() == TimeoutState.white:
             time_color = YELLOW
-            show_time = True
-            self.font_s.print(self.canvas, 22, 2, white_color,
+            self.font_s.print(self.canvas, 100, 12, white_color,
                               "WHITE T/O")
         elif mgr.timeoutState() == TimeoutState.black:
             time_color = YELLOW
-            show_time = True
-            self.font_s.print(self.canvas, 22, 2, black_color,
+            self.font_s.print(self.canvas, 100, 12, black_color,
                               "BLACK T/O")
         elif mgr.gameState() == GameState.first_half:
             time_color = GREEN
-            show_time = True
-            self.font_s.print(self.canvas, 22, 2, time_color,
+            self.font_s.print(self.canvas, 100, 12, time_color,
                               "1st  half")
         elif mgr.gameState() == GameState.second_half:
             time_color = GREEN
-            show_time = True
-            self.font_s.print(self.canvas, 22, 2, time_color,
+            self.font_s.print(self.canvas, 100, 12, time_color,
                               "2nd  half")
         elif mgr.gameState() == GameState.half_time:
             time_color = ORANGE
-            show_time = True
-            self.font_s.print(self.canvas, 22, 2, time_color,
+            self.font_s.print(self.canvas, 100, 12, time_color,
                               "1/2  time")
         elif mgr.gameState() == GameState.pre_game:
             time_color = YELLOW
-            show_time = True
-            self.font_s.print(self.canvas, 22, 2, time_color,
+            self.font_s.print(self.canvas, 100, 12, time_color,
                               "next game")
         elif mgr.gameState() == GameState.game_over:
             time_color = YELLOW
-            show_time = True
-            self.font_s.print(self.canvas, 22, 2, time_color,
+            self.font_s.print(self.canvas, 100, 12, time_color,
                               "next game")
             game_clock += 3 * 60
         elif mgr.gameState() == GameState.pre_ot:
             time_color = ORANGE
-            show_time = True
-            self.font_s.print(self.canvas, 22, 2, time_color,
+            self.font_s.print(self.canvas, 100, 12, time_color,
                               "PRE - O/T")
         elif mgr.gameState() == GameState.ot_first:
             time_color = GREEN
-            show_time = True
-            self.font_s.print(self.canvas, 22, 2, ORANGE,
+            self.font_s.print(self.canvas, 100, 12, ORANGE,
                               "1st OVRTM")
         elif mgr.gameState() == GameState.ot_half:
             time_color = ORANGE
-            show_time = True
-            self.font_s.print(self.canvas, 22, 2, time_color,
+            self.font_s.print(self.canvas, 100, 12, time_color,
                               "1/2 - O/T")
         elif mgr.gameState() == GameState.ot_second:
             time_color = GREEN
-            show_time = True
-            self.font_s.print(self.canvas, 22, 2, ORANGE,
+            self.font_s.print(self.canvas, 100, 12, ORANGE,
                               "2nd OVRTM")
         elif mgr.gameState() == GameState.pre_sudden_death:
             time_color = ORANGE
-            show_time = True
-            self.font_s.print(self.canvas, 22, 2, time_color,
+            self.font_s.print(self.canvas, 100, 12, time_color,
                               "PRE - S/D")
         elif mgr.gameState() == GameState.sudden_death:
             time_color = GREEN
-            show_time = True
-            self.font_s.print(self.canvas, 22, 2, time_color,
+            self.font_s.print(self.canvas, 100, 12, time_color,
                               "sdn death")
 
-        if show_time:
-            self.font_l.print(self.canvas,  64, 6, time_color,
-                               "{:>2}".format(game_clock // 60))
+        # Game Clock
+        self.font_l.print(self.canvas,  93, 28, time_color,
+                          "{:>2}".format(game_clock // 60))
 
-            self.font_l.print(self.canvas, 128, 6, time_color,
-                               "{:0>2}".format(game_clock % 60))
+        self.font_l.print(self.canvas, 128, 28, time_color,
+                          "{:0>2}".format(game_clock % 60))
 
-            self.draw_colon(48, 16, time_color)
-            self.draw_colon(48, 24, time_color)
+        self.draw_colon(125, 36, time_color)
+        self.draw_colon(125, 48, time_color)
 
 
     def draw_colon(self, x, y, c):
