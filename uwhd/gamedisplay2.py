@@ -160,12 +160,13 @@ class GameDisplay2(object):
         self.canvas.set(x+1, y, c)
 
     def draw_pie(self, x, y, r, p, c):
+        def inarc(xo, yo, p):
+            return math.atan2(xo, yo) + math.pi <= 2 * math.pi * p
+
+        def incirc(xo, yo, r):
+            return xo * xo + yo * yo <= r * r
+
         for yo in range(-r, r, 1):
             for xo in range(-r, r, 1):
-                if xo * xo + yo * yo >= r * r:
-                    continue
-
-                if math.atan2(xo, yo) + math.pi > 2 * math.pi * p:
-                    self.canvas.set(x + xo, y + yo, GRAY)
-                else:
+                if (incirc(xo, yo, r) and (not incirc(xo, yo, r - 2)) and inarc(xo, yo, p)):
                     self.canvas.set(x + xo, y + yo, c)
