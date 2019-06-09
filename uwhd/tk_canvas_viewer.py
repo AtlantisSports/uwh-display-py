@@ -4,10 +4,12 @@ import tkinter as tk
 #from tkinter import ttk
 
 class TkCanvasViewer(CanvasViewer):
-    def __init__(self, master, c):
+    def __init__(self, master, c, title):
         self.canv_w = 1200
         self.canv_h = 400
-        w = tk.Canvas(master, width=self.canv_w, height=self.canv_h)
+        f = tk.Frame(master, width=self.canv_w, height=self.canv_h)
+        f.pack()
+        w = tk.Canvas(f, width=self.canv_w, height=self.canv_h)
         w.pack()
         self.w = w;
         self.master = master

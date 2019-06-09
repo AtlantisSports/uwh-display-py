@@ -12,6 +12,7 @@ from uwh.gamemanager import PoolLayout, TimeoutState, GameState
 import tkinter as tk
 import io
 import socket
+import signal
 
 master = tk.Tk()
 
@@ -35,18 +36,31 @@ if cfg.has_section('hardware'):
         xbee.setup(xbee_id(cfg), xbee_ch(cfg), socket.gethostname())
         xbee.listen_thread()
 
-gd = GameDisplay2()
-#gd = GameDisplay()
-gd.render(mgr)
+gd = {}
+panels = ['v1', 'left', 'center', 'right']
+for panel in panels:
+    if panel == 'v1':
+        gd[panel] = GameDisplay()
+    else:
+        gd[panel] = GameDisplay2(panel)
+    gd[panel].render(mgr)
 
-cvv = TkCanvasViewer(master, gd.canvas)
-cvv.show(gd.canvas)
+    cvv = TkCanvasViewer(master, gd[panel].canvas, panel)
+    cvv.show(gd[panel].canvas)
 
-def do_render():
-    gd.render(mgr)
-    cvv.show(gd.canvas)
+for panel in panels:
+    def do_render():
+        gd[panel].render(mgr)
+        cvv.show(gd[panel].canvas)
+        cvv.w.after(100, do_render)
+
     cvv.w.after(100, do_render)
 
-cvv.w.after(100, do_render)
+def sigint_handler(sig, frame):
+    master.quit()
+    master.update()
+
+signal.signal(signal.SIGINT, sigint_handler)
 
 tk.mainloop()
+
