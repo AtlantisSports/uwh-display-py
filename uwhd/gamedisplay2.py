@@ -15,7 +15,8 @@ class GameDisplay2(object):
         self.font_s = Font.get_5x7()
         self.font_m = Font.get_11x20()
         self.font_l = Font.get_15x29()
-        self.font_xl = Font.get_30x58()
+        self.font_xl = Font.get_22x40()
+        self.font_xxl = Font.get_30x58()
 
         self.score_str = None
         self.time_str = None
@@ -47,12 +48,12 @@ class GameDisplay2(object):
     def render(self, mgr):
         lscore = self.left_score(mgr)
         loffs = 0 if 10 <= lscore else 16
-        self.font_xl.print(self.canvas,   2 + loffs, 3, self.left_color(mgr),
-                           "%d" % (lscore,))
+        self.font_xxl.print(self.canvas,   2 + loffs, 3, self.left_color(mgr),
+                            "%d" % (lscore,))
         rscore = self.right_score(mgr)
         roffs = 0 if 10 <= rscore else 16
-        self.font_xl.print(self.canvas, 194 + roffs, 3, self.right_color(mgr),
-                           "%d" % (rscore,))
+        self.font_xxl.print(self.canvas, 194 + roffs, 3, self.right_color(mgr),
+                            "%d" % (rscore,))
 
         game_clock = mgr.gameClockAtPause()
         timeout_clock = mgr.gameClock()
