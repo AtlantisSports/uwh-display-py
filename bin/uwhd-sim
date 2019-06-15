@@ -26,7 +26,7 @@ mgr.setWhiteScore(24)
 mgr.setGameClockAtPause(12 * 60 + 34)
 mgr.setGameClock(3 * 60 + 45)
 mgr.setGameState(GameState.first_half)
-mgr.setTimeoutState(TimeoutState.black)
+#mgr.setTimeoutState(TimeoutState.black)
 mgr.setLayout(PoolLayout.white_on_left)
 
 cfg = XBeeConfigParser()
