@@ -1,31 +1,26 @@
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
-from PIL import Image
 from .canvas_viewer import CanvasViewer
 
 class MatrixCanvasViewer(CanvasViewer):
     def __init__(self, window=None):
-        options = RGBMatrixOptions()
-        options.rows = 32
-        options.chain_length = 3
-        options.parallel = 1
-        options.hardware_mapping = 'regular'
-
-        self._matrix = RGBMatrix(options=options)
-
-        self._image = Image.new("RGB", (self._matrix.width,
-                                        self._matrix.height),
-                                "white")
-
-        self._offscreen = self._matrix.CreateFrameCanvas()
-
         if window is None:
-            window = { 'w': c.w, 'h': c.h, 'x': 0, 'y': 0, 'invert': False }
+            window = { 'w': 32 * 3, 'h': 32, 'x': 0, 'y': 0, 'invert': False }
 
         self.window = window
         self.invert = window['invert']
 
         self.cw = window['w']
         self.ch = window['h']
+
+        options = RGBMatrixOptions()
+        options.rows = self.ch # awkward because we don't know what size panels
+        options.chain_length = self.cw / self.ch
+        options.parallel = 1
+        options.hardware_mapping = 'regular'
+
+        self._matrix = RGBMatrix(options=options)
+        self._offscreen = self._matrix.CreateFrameCanvas()
+
 
     def show(self, c):
         for y in range(self.ch):
