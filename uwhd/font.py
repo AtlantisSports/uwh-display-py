@@ -1,5 +1,5 @@
 import os
-from .ppm import PPMImage
+from .ppm import PPMImage, PPMException
 from random import random
 
 class Font(object):
@@ -15,7 +15,11 @@ class Font(object):
 
     def insert(self, c, filename):
         with open(filename, 'r') as img:
-            self.map[c] = PPMImage.load(img).as_canvas()
+            try:
+                self.map[c] = PPMImage.load(img).as_canvas()
+            except PPMException as e:
+                print(filename)
+                raise e
 
     def print(self, canvas, x, y, color, s, shimmer=False):
         def print_char(canvas, x, y, color, char_img):
