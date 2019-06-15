@@ -5,7 +5,7 @@ from uwhd.canvas import Canvas, Color
 from uwhd.ppm import PPMImage
 from uwhd.gamedisplay import GameDisplay
 from uwhd.gamedisplay2 import GameDisplay2
-from uwh.gamemanager import GameManager
+from uwh.gamemanager import GameManager, Penalty, TeamColor
 from uwh.xbee_comms import XBeeClient, XBeeConfigParser, xbee_port, xbee_baud, xbee_id, xbee_ch
 from uwh.gamemanager import PoolLayout, TimeoutState, GameState
 
@@ -22,12 +22,18 @@ cfg.read('timeshark.cfg')
 mgr = GameManager()
 mgr.setPassive()
 mgr.setBlackScore(19)
-mgr.setWhiteScore(24)
+mgr.setWhiteScore(8)
 mgr.setGameClockAtPause(12 * 60 + 34)
 mgr.setGameClock(3 * 60 + 45)
 mgr.setGameState(GameState.first_half)
-#mgr.setTimeoutState(TimeoutState.black)
+mgr.setTimeoutState(TimeoutState.black)
 mgr.setLayout(PoolLayout.white_on_left)
+
+mgr.addPenalty(Penalty(33, TeamColor.white, 3 * 60))
+mgr.addPenalty(Penalty(11, TeamColor.white, 1 * 60))
+mgr.addPenalty(Penalty( 5, TeamColor.black, 5 * 60))
+mgr.addPenalty(Penalty(33, TeamColor.black, 3 * 60))
+mgr.addPenalty(Penalty(99, TeamColor.black, -1))
 
 cfg = XBeeConfigParser()
 cfg.read('timeshark.cfg')
