@@ -14,10 +14,11 @@ def remove_comments(s):
 
 
 class PPMImage(object):
-    def __init__(self, w, h, data):
+    def __init__(self, w, h, data, channels):
         self.w = w
         self.h = h
         self.data = data
+        self.channels = channels
 
     @staticmethod
     def load(infile):
@@ -25,8 +26,13 @@ class PPMImage(object):
         while magic == "":
             line = infile.readline()
             magic = remove_comments(line)
-        if (magic != "P3"):
-            raise PPMException("Not a valid P3 PPM file")
+        if magic != "P3" and magic != "P2":
+            raise PPMException("Not a valid P2/P3 PPM file")
+
+        if magic == "P3":
+            channels = 3
+        elif magic == "P2":
+            channels = 1
 
         line = infile.readline()
         (w, space, h) = remove_comments(line).partition(" ")
@@ -47,22 +53,26 @@ class PPMImage(object):
 
         color_data = [int(x) for x in color_data]
 
-        if len(color_data) != w * h * 3:
-            raise PPMException("Dimensions don't match color data %d != %d * %d * 3" % (len(color_data), w, h))
+        if len(color_data) != w * h * channels:
+            raise PPMException("Dimensions don't match color data %d != %d * %d * %d" % (len(color_data), w, h, channels))
 
-        return PPMImage(w, h, color_data)
+        return PPMImage(w, h, color_data, channels)
 
-    def fill_canvas(self, canvas):
+    def fill_canvas(self, canvas, channels):
         assert self.w == canvas.w
         assert self.h == canvas.h
         for y in range(self.h):
             for x in range(self.w):
-                index = y * self.w * 3 + x * 3
-                canvas.set(x, y, Color(self.data[index],
-                                       self.data[index+1],
-                                       self.data[index+2]))
+                index = y * self.w * channels + x * channels
+                if channels == 3:
+                    canvas.set(x, y, Color(self.data[index],
+                                           self.data[index+1],
+                                           self.data[index+2]))
+                elif channels == 1:
+                    c = self.data[index]
+                    canvas.set(x, y, Color(c, c, c))
 
     def as_canvas(self):
         canvas = Canvas(self.w, self.h)
-        self.fill_canvas(canvas)
+        self.fill_canvas(canvas, self.channels)
         return canvas
