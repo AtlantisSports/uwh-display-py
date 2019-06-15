@@ -1,6 +1,8 @@
 from .font import Font
 from .canvas import Canvas, Color
-from uwh.gamemanager import PoolLayout, TimeoutState, GameState
+from uwh.gamemanager import PoolLayout, TimeoutState, GameState, TeamColor
+
+import math
 
 BLUE = Color( 64, 128, 255)
 WHITE = Color(255, 255, 255)
@@ -8,6 +10,7 @@ GREEN  = Color(  0, 255,   0)
 ORANGE = Color(255, 128,   0)
 RED    = Color(255,   0,   0)
 YELLOW = Color(255, 255,   0)
+GRAY = Color(128, 128, 128)
 
 class GameDisplay2(object):
     def __init__(self):
@@ -46,15 +49,75 @@ class GameDisplay2(object):
         else:
             return BLUE
 
-    def render(self, mgr):
+    def left_team(self, mgr):
+        if mgr.layout() == PoolLayout.white_on_right:
+            return TeamColor.black
+        else:
+            return TeamColor.white
+
+    def right_team(self, mgr):
+        if mgr.layout() == PoolLayout.white_on_right:
+            return TeamColor.white
+        else:
+            return TeamColor.black
+
+    def render_score(self, mgr):
         lscore = self.left_score(mgr)
-        loffs = 0 if 10 <= lscore else 16
-        self.font_xxl.print(self.canvas,   2 + loffs, 3, self.left_color(mgr),
-                            "%d" % (lscore,))
+        lpenalties = mgr.penalties(self.left_team(mgr))
+        if len(lpenalties):
+            loffs = 8 if 10 <= lscore else 20
+            self.font_xl.print(self.canvas,    2 + loffs, 3, self.left_color(mgr),
+                               "%d" % (lscore,))
+
+            lpenalties = lpenalties[:3]
+            count = len(lpenalties)
+            for i, penalty in enumerate(lpenalties):
+                offset = int((count - i) * 64 / (count + 1))
+                self.render_penalty(penalty, offset, 51)
+        else:
+            loffs = 0 if 10 <= lscore else 16
+            self.font_xxl.print(self.canvas,   2 + loffs, 3, self.left_color(mgr),
+                                "%d" % (lscore,))
+
         rscore = self.right_score(mgr)
-        roffs = 0 if 10 <= rscore else 16
-        self.font_xxl.print(self.canvas, 194 + roffs, 3, self.right_color(mgr),
-                            "%d" % (rscore,))
+        rpenalties = mgr.penalties(self.right_team(mgr))
+        if len(rpenalties):
+            roffs = 8 if 10 <= rscore else 20
+            self.font_xl.print(self.canvas,  194 + roffs, 3, self.right_color(mgr),
+                               "%d" % (rscore,))
+
+            rpenalties = rpenalties[:3]
+            count = len(rpenalties)
+            for i, penalty in enumerate(rpenalties):
+                offset = int((count - i) * 64 / (count + 1))
+                self.render_penalty(penalty, 192 + offset, 51)
+        else:
+            roffs = 0 if 10 <= rscore else 16
+            self.font_xxl.print(self.canvas, 194 + roffs, 3, self.right_color(mgr),
+                                "%d" % (rscore,))
+
+    def render_penalty(self, p, x, y):
+        if p.dismissed():
+            thick = 3
+            size = 7
+            for yo in range(-size, size):
+                for xo in range(-size, size):
+                    if abs(xo + yo) < thick or abs(yo - xo) < thick:
+                        self.canvas.set(x + xo, y + yo + 4, RED)
+        else:
+            width = {
+                60: 1,
+                180: 3,
+                300: 8
+            }[p.duration()]
+            self.draw_pie(x, y + 3, 8, 0.75, RED, width)
+
+        color = WHITE if p.team() == TeamColor.white else BLUE
+        cap = str(p.player())
+        self.font_xs.print(self.canvas, x - 5 + 3 * (2 - len(cap)), y, color, cap, alpha=True)
+
+    def render(self, mgr):
+        self.render_score(mgr)
 
         game_clock = mgr.gameClockAtPause()
         timeout_clock = mgr.gameClock()
@@ -137,3 +200,15 @@ class GameDisplay2(object):
     def draw_skinnycolon(self, x, y, c):
         self.canvas.set(x,   y, c)
         self.canvas.set(x+1, y, c)
+
+    def draw_pie(self, x, y, r, p, c, rad):
+        def inarc(xo, yo, p):
+            return math.atan2(xo, yo) + math.pi <= 2 * math.pi * p
+
+        def incirc(xo, yo, r):
+            return xo * xo + yo * yo <= r * r
+
+        for yo in range(-r, r, 1):
+            for xo in range(-r, r, 1):
+                if (incirc(xo, yo, r) and (not incirc(xo, yo, r - rad)) and inarc(xo, yo, p)):
+                    self.canvas.set(x + xo, y + yo, c)

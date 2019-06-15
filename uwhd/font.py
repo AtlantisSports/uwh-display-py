@@ -21,11 +21,13 @@ class Font(object):
                 print(filename)
                 raise e
 
-    def print(self, canvas, x, y, color, s, shimmer=False):
+    def print(self, canvas, x, y, color, s, shimmer=False, alpha=False):
         def print_char(canvas, x, y, color, char_img):
             for yi in range(0, self.h):
               for xi in range(0, self.w):
                   ic = char_img.get(xi, yi)
+                  if ic.r + ic.g + ic.b == 0 and alpha:
+                      continue
                   scale = min(1, 0.5 + random()) if shimmer else 1
                   ic.r = scale * (ic.r * color.r) / 255
                   ic.g = scale * (ic.g * color.g) / 255
