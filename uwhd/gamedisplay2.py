@@ -72,12 +72,12 @@ class GameDisplay2(object):
             GameState.half_time:        (ORANGE, "HALF\nTIME"),
             GameState.pre_game:         (YELLOW, "NEXT\nGAME"),
             GameState.game_over:        (YELLOW, "NEXT\nGAME"),
-            GameState.pre_ot:           (ORANGE, "PRE\nOVERTIME"),
-            GameState.ot_first:         (GREEN,  "FIRST\nOVERTIME"),
-            GameState.ot_half:          (GREEN,  "OVERTIME\nHALFTIME"),
-            GameState.ot_second:        (GREEN,  "SECOND\nOVERTIME"),
-            GameState.pre_sudden_death: (ORANGE, "PRE SUDDEN\nDEATH"),
-            GameState.sudden_death:     (GREEN,  "SUDDEN\nDEATH")
+            GameState.pre_ot:           (ORANGE, "PRE\nOVTM"),
+            GameState.ot_first:         (GREEN,  "FIRST\nOVTM"),
+            GameState.ot_half:          (GREEN,  "OVTM\nHALF"),
+            GameState.ot_second:        (GREEN,  "2ND\nOVTM"),
+            GameState.pre_sudden_death: (ORANGE, "PRE SDN\nDEATH"),
+            GameState.sudden_death:     (GREEN,  "SUDN\nDEATH")
         }[mgr.gameState()]
 
         if (mgr.timeoutState() == TimeoutState.penalty_shot or
