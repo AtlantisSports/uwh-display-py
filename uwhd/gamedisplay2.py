@@ -8,7 +8,7 @@ BLUE = Color( 64, 128, 255)
 WHITE = Color(255, 255, 255)
 GREEN  = Color(  0, 255,   0)
 ORANGE = Color(255, 128,   0)
-RED    = Color(255,   0,   0)
+RED    = Color( 96,   0,   0)
 YELLOW = Color(255, 255,   0)
 GRAY = Color(128, 128, 128)
 
