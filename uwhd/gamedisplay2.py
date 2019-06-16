@@ -63,7 +63,8 @@ class GameDisplay2(object):
 
     def render_score(self, mgr):
         lscore = self.left_score(mgr)
-        lpenalties = mgr.penalties(self.left_team(mgr))
+        lpenalties = [p for p in mgr.penalties(self.left_team(mgr)) if not p.servedCompletely(mgr)]
+        lpenalties = sorted(lpenalties, key=lambda p: p.durationRemaining(), reverse=True)
         if len(lpenalties):
             loffs = 8 if 10 <= lscore else 20
             self.font_xl.print(self.canvas,    2 + loffs, 3, self.left_color(mgr),
@@ -80,7 +81,8 @@ class GameDisplay2(object):
                                 "%d" % (lscore,))
 
         rscore = self.right_score(mgr)
-        rpenalties = mgr.penalties(self.right_team(mgr))
+        rpenalties = [p for p in mgr.penalties(self.right_team(mgr)) if not p.servedCompletely(mgr)]
+        rpenalties = sorted(rpenalties, key=lambda p: p.durationRemaining(), reverse=True)
         if len(rpenalties):
             roffs = 8 if 10 <= rscore else 20
             self.font_xl.print(self.canvas,  194 + roffs, 3, self.right_color(mgr),
@@ -110,7 +112,8 @@ class GameDisplay2(object):
                 180: 3,
                 300: 8
             }[p.duration()]
-            self.draw_pie(x, y + 3, 8, 0.75, RED, width)
+            percent = p.durationRemaining() / p.duration()
+            self.draw_pie(x, y + 3, 8, percent, RED, width)
 
         color = WHITE if p.team() == TeamColor.white else BLUE
         cap = str(p.player())
