@@ -128,7 +128,7 @@ class GameDisplay2(object):
 
         period_color, period_text = {
             GameState.first_half:       (GREEN,  "FIRST\nHALF"),
-            GameState.second_half:      (GREEN,  "SECOND\nHALF"),
+            GameState.second_half:      (GREEN,  "2ND\nHALF"),
             GameState.half_time:        (ORANGE, "HALF\nTIME"),
             GameState.pre_game:         (YELLOW, "NEXT\nGAME"),
             GameState.game_over:        (YELLOW, "NEXT\nGAME"),
