@@ -121,6 +121,7 @@ class GameDisplay2(object):
         self.font_xs.print(self.canvas, x - 5 + 3 * (2 - len(cap)), y, color, cap, alpha=True)
 
     def render(self, mgr):
+        self.canvas.clear()
         self.render_score(mgr)
 
         game_clock = mgr.gameClockAtPause()
