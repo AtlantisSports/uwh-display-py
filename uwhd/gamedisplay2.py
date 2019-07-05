@@ -109,8 +109,7 @@ class GameDisplay2(object):
         else:
             width = {
                 60: 1,
-                120: 2,
-                180: 3,
+                120: 4,
                 300: 8
             }.get(p.duration(), 8)
             percent = p.durationRemaining() / p.duration()
