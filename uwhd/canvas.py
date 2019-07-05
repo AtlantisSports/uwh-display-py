@@ -22,7 +22,10 @@ class Canvas(object):
         self.c = [[Color()] * self.w for y in range(self.h)]
 
     def get(self, x, y):
-        return self.c[y][x].copy()
+        try:
+            return self.c[y][x].copy()
+        except IndexError:
+            print("IndexError y:{} x:{}".format(y, x))
 
     def set(self, x, y, c):
         if x < self.w and y < self.h:
