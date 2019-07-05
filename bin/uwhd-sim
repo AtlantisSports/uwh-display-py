@@ -65,7 +65,6 @@ for panel in panels:
     cvv.show(gd[panel].canvas)
 
 def do_render(panel):
-    print('rendering ' + panel)
     gd[panel].render(mgr)
     cvv.show(gd[panel].canvas)
     cvv.w.after(100, lambda: do_render(panel))
