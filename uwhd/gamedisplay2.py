@@ -145,12 +145,11 @@ class GameDisplay2(object):
             mgr.timeoutState() == TimeoutState.white or
             mgr.timeoutState() == TimeoutState.black):
 
-            state_color, state_text = {
-                TimeoutState.ref:           (YELLOW, "REF\nT/O"),
-                TimeoutState.penalty_shot:  (RED,    "PNLTY\nSHOT"),
-                TimeoutState.white:         (WHITE,  "WHITE\nT/O"),
-                TimeoutState.black:         (BLUE,   "BLACK\nT/O"),
-                TimeoutState.none:          (None, None)
+            state_color, state_text, second_clock = {
+                TimeoutState.ref:           (YELLOW, "REF\nTIMEOUT",  False),
+                TimeoutState.penalty_shot:  (RED,    "PENALTY\nSHOT", False),
+                TimeoutState.white:         (WHITE,  "WHITE\nT/O",    True),
+                TimeoutState.black:         (BLUE,   "BLACK\nT/O",    True),
             }[mgr.timeoutState()]
 
             if mgr.gameState() == GameState.game_over:
@@ -162,14 +161,15 @@ class GameDisplay2(object):
             self.font_s.print(self.canvas,  65, 1, state_color, state_text)
             self.font_s.print(self.canvas,  65, 64 - 30, period_color, period_text)
 
-            self.font_l.print(self.canvas,  93 + 32, 1, state_color,
-                              "{:>2}".format(timeout_clock // 60))
+            if second_clock:
+                self.font_l.print(self.canvas,  93 + 32, 1, state_color,
+                                  "{:>2}".format(timeout_clock // 60))
 
-            self.font_l.print(self.canvas, 128 + 32, 1, state_color,
-                              "{:0>2}".format(timeout_clock % 60))
+                self.font_l.print(self.canvas, 128 + 32, 1, state_color,
+                                  "{:0>2}".format(timeout_clock % 60))
 
-            self.draw_colon(125 + 32,  8 + 5, state_color)
-            self.draw_colon(125 + 32, 20 + 5, state_color)
+                self.draw_colon(125 + 32,  8 + 5, state_color)
+                self.draw_colon(125 + 32, 20 + 5, state_color)
 
             # Game Clock
             self.font_l.print(self.canvas,  93 + 32, 28 + 5, period_color,
