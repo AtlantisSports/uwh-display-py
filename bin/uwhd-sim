@@ -69,7 +69,6 @@ def do_render(panel):
     cvv.show(gd[panel].canvas)
     cvv.w.after(100, lambda: do_render(panel))
 
-cvv.w.after(100, lambda: do_render('v1'))
 cvv.w.after(101, lambda: do_render('left'))
 cvv.w.after(102, lambda: do_render('center'))
 cvv.w.after(103, lambda: do_render('right'))
