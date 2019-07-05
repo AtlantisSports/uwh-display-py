@@ -45,7 +45,7 @@ if cfg.has_section('hardware'):
         xbee.listen_thread()
 
 gd = {}
-panels = ['v1', 'left', 'center', 'right']
+panels = ['left', 'center', 'right']
 for panel in panels:
     if panel == 'v1':
         gd[panel] = GameDisplay()
