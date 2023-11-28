@@ -24,7 +24,20 @@ xbee.listen_thread()
 gd = GameDisplay()
 gd.render(mgr)
 
-mv = MatrixCanvasViewer()
+version, panel = 'v1', 'center'
+
+if version == 'v1':
+    window = None
+else:
+    window = {
+        'w': 128 if panel == 'center' else 64,
+        'h': 64,
+        'x': { 'left': 0, 'center': 64, 'right': 3 * 64 }[panel],
+        'y': 0,
+        'invert': panel == 'right'
+    }
+
+mv = MatrixCanvasViewer(window)
 
 try:
     print("Press CTRL-C to stop.")

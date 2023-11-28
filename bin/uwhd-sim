@@ -4,13 +4,15 @@ from uwhd.tk_canvas_viewer import TkCanvasViewer
 from uwhd.canvas import Canvas, Color
 from uwhd.ppm import PPMImage
 from uwhd.gamedisplay import GameDisplay
-from uwh.gamemanager import GameManager
+from uwhd.gamedisplay2 import GameDisplay2
+from uwh.gamemanager import GameManager, Penalty, TeamColor
 from uwh.xbee_comms import XBeeClient, XBeeConfigParser, xbee_port, xbee_baud, xbee_id, xbee_ch
 from uwh.gamemanager import PoolLayout, TimeoutState, GameState
 
 import tkinter as tk
 import io
 import socket
+import signal
 
 master = tk.Tk()
 
@@ -19,11 +21,19 @@ cfg.read('timeshark.cfg')
 
 mgr = GameManager()
 mgr.setPassive()
-mgr.setBlackScore(0)
-mgr.setWhiteScore(0)
-mgr.setGameClock(0)
-mgr.setGameState(GameState.pre_game)
+mgr.setBlackScore(19)
+mgr.setWhiteScore(8)
+mgr.setGameClockAtPause(12 * 60 + 34)
+mgr.setGameClock(3 * 60 + 45)
+mgr.setGameState(GameState.first_half)
+mgr.setTimeoutState(TimeoutState.black)
 mgr.setLayout(PoolLayout.white_on_left)
+
+mgr.addPenalty(Penalty(33, TeamColor.white, 3 * 60))
+mgr.addPenalty(Penalty(11, TeamColor.white, 1 * 60))
+mgr.addPenalty(Penalty( 5, TeamColor.black, 5 * 60))
+mgr.addPenalty(Penalty(33, TeamColor.black, 3 * 60))
+mgr.addPenalty(Penalty(99, TeamColor.black, -1))
 
 cfg = XBeeConfigParser()
 cfg.read('timeshark.cfg')
@@ -34,17 +44,40 @@ if cfg.has_section('hardware'):
         xbee.setup(xbee_id(cfg), xbee_ch(cfg), socket.gethostname())
         xbee.listen_thread()
 
-gd = GameDisplay()
-gd.render(mgr)
+gd = {}
+panels = ['left', 'center', 'right']
+for panel in panels:
+    if panel == 'v1':
+        gd[panel] = GameDisplay()
+        window = None
+    else:
+        gd[panel] = GameDisplay2()
+        window = {
+            'w': 128 if panel == 'center' else 64,
+            'h': 64,
+            'x': { 'left': 0, 'center': 64, 'right': 3 * 64 }[panel],
+            'y': 0,
+            'invert': panel == 'right'
+        }
+    gd[panel].render(mgr)
 
-cvv = TkCanvasViewer(master, gd.canvas)
-cvv.show(gd.canvas)
+    cvv = TkCanvasViewer(master, gd[panel].canvas, panel, window)
+    cvv.show(gd[panel].canvas)
 
-def do_render():
-    gd.render(mgr)
-    cvv.show(gd.canvas)
-    cvv.w.after(100, do_render)
+def do_render(panel):
+    gd[panel].render(mgr)
+    cvv.show(gd[panel].canvas)
+    cvv.w.after(100, lambda: do_render(panel))
 
-cvv.w.after(100, do_render)
+cvv.w.after(101, lambda: do_render('left'))
+cvv.w.after(102, lambda: do_render('center'))
+cvv.w.after(103, lambda: do_render('right'))
+
+def sigint_handler(sig, frame):
+    master.quit()
+    master.update()
+
+signal.signal(signal.SIGINT, sigint_handler)
 
 tk.mainloop()
+
